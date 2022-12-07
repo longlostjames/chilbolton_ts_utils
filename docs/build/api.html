@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>API reference &mdash; wivern2_chilbolton 1.0.0 documentation</title><link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Filename conventions" href="fileformat.html" />
+    <link rel="prev" title="Quickstart" href="quickstart.html" />
+    <link href="_static/custom.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> wivern2_chilbolton
+          </a>
+              <div class="version">
+                1.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation Instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#high-level-functions">High-level functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#raw-data-conversion">Raw data conversion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#visualizing-results">Visualizing results</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="fileformat.html">Filename conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fileformat.html#file-format-description">File format description</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide.html">Developer’s Guide</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">wivern2_chilbolton</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>API reference</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/api.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="api-reference">
+<h1>API reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="high-level-functions">
+<h2>High-level functions<a class="headerlink" href="#high-level-functions" title="Permalink to this headline">¶</a></h2>
+<p>CloudnetPy’s high-level functions provide a simple mechanism to process
+cloud remote sensing measurements into Cloudnet products. A full processing
+goes in steps. Each step produces a file which used as an input for the
+next step.</p>
+<div class="section" id="raw-data-conversion">
+<h3>Raw data conversion<a class="headerlink" href="#raw-data-conversion" title="Permalink to this headline">¶</a></h3>
+<p>Different Cloudnet instruments provide raw data in various formats (netCDF, binary, text)
+that first need to be converted into homogeneous Cloudnet netCDF files
+containing harmonized units and other metadata. This initial processing step
+is necessary to ensure that the subsequent processing steps work with
+all supported instrument combinations.</p>
+<span class="target" id="module-wivern_chilbolton_utils"></span><p>Module for processing raw radar data from CAMRa (3GHz), Copernicus (35GHz)
+and Galieo (94GHz) radars at Chilbolton, collected as part of the
+ESA WIVERN-2 project in 2020-2021.</p>
+<dl class="py function">
+<dt id="wivern_chilbolton_utils.convert_camra_ts_l0a2l0b">
+<code class="sig-prename descclassname"><span class="pre">wivern_chilbolton_utils.</span></code><code class="sig-name descname"><span class="pre">convert_camra_ts_l0a2l0b</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">infile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outfile</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/wivern_chilbolton_utils.html#convert_camra_ts_l0a2l0b"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#wivern_chilbolton_utils.convert_camra_ts_l0a2l0b" title="Permalink to this definition">¶</a></dt>
+<dd><p>This routine converts raw (Level 0a) time series data from the Chilbolton Advanced Meteorological Radar (CAMRa) to Level 0b data.
+Processing involves removing redundant dimensions, and removing bias from the ADC samples of transmit and receive I and Q.
+Single estimates of I and Q for each transmit pulse are produced and stored in the output file.
+Metadata are added specific to the WIVERN-2 project ground-based observations collected in 2020-2021.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>infile</strong> (<em>str</em>) – Full path of NetCDF Level 0a raw data file, e.g. <cite>&lt;path-to-file&gt;/radar-camra_20201210212823_fix-ts.nc</cite></p></li>
+<li><p><strong>outfile</strong> (<em>str</em>) – Full path of NetCDF Level 0b output file, e.g. <cite>&lt;path-to-file&gt;/ncas-radar-camra-1_cao_20201210-212823_fix-ts_l0b_v1.0.nc</cite></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="wivern_chilbolton_utils.update_licensing">
+<code class="sig-prename descclassname"><span class="pre">wivern_chilbolton_utils.</span></code><code class="sig-name descname"><span class="pre">update_licensing</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">l1file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/wivern_chilbolton_utils.html#update_licensing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#wivern_chilbolton_utils.update_licensing" title="Permalink to this definition">¶</a></dt>
+<dd><p>This routine updates the licence to Creative Commons Attribution 4.0 International (CC-BY 4.0).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>l1file</strong> – Full path of NetCDF Level 1 file, <cite>&lt;path-to-file&gt;/ncas-radar-camra-1_cao_20201210-212823_fix-ts_l1_v1.0.nc</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="wivern_chilbolton_utils.update_copernicus_azimuth_attributes">
+<code class="sig-prename descclassname"><span class="pre">wivern_chilbolton_utils.</span></code><code class="sig-name descname"><span class="pre">update_copernicus_azimuth_attributes</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">l1file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/wivern_chilbolton_utils.html#update_copernicus_azimuth_attributes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#wivern_chilbolton_utils.update_copernicus_azimuth_attributes" title="Permalink to this definition">¶</a></dt>
+<dd><p>This routine updates the attributes of the azimuth for 35GHz Copernicus radar data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>l1file</strong> – Full path of NetCDF Level 1 file, <cite>&lt;path-to-file&gt;/ncas-radar-ka-band-1_cao_20201210-21282323_fix-ts_l1_v1.0.nc</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="wivern_chilbolton_utils.update_galileo_pointing_attributes">
+<code class="sig-prename descclassname"><span class="pre">wivern_chilbolton_utils.</span></code><code class="sig-name descname"><span class="pre">update_galileo_pointing_attributes</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">l1file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/wivern_chilbolton_utils.html#update_galileo_pointing_attributes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#wivern_chilbolton_utils.update_galileo_pointing_attributes" title="Permalink to this definition">¶</a></dt>
+<dd><p>This routine updates the attributes of the elevation and azimuth for 94GHz Galileo radar data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>l1file</strong> – Full path of NetCDF Level 1 file, <cite>&lt;path-to-file&gt;/ncas-radar-w-band-1_cao_20201210-212823_fix-ts_l1_v1.0.nc</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="wivern_chilbolton_utils.encode_antenna_mispointing">
+<code class="sig-prename descclassname"><span class="pre">wivern_chilbolton_utils.</span></code><code class="sig-name descname"><span class="pre">encode_antenna_mispointing</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">l1file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elevation_offset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">azimuth</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/wivern_chilbolton_utils.html#encode_antenna_mispointing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#wivern_chilbolton_utils.encode_antenna_mispointing" title="Permalink to this definition">¶</a></dt>
+<dd><p>This routine updates the elevation and azimuth to account for antenna mispointing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>l1file</strong> – Full path of NetCDF Level 1 file, <cite>&lt;path-to-file&gt;/ncas-radar-w-band-1_cao_20201210-212823_fix-ts_l1_v1.0.nc</cite></p></li>
+<li><p><strong>elevation_offset</strong> (<em>float</em>) – angle between boresight and zenith in degrees.</p></li>
+<li><p><strong>azimuth</strong> (<em>float</em>) – azimuth angle from grid north of the plane containing the antenna boresight and zenith vectors</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="wivern_chilbolton_utils.encode_dBZ_offset">
+<code class="sig-prename descclassname"><span class="pre">wivern_chilbolton_utils.</span></code><code class="sig-name descname"><span class="pre">encode_dBZ_offset</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">l1file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dBZ_offset</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/wivern_chilbolton_utils.html#encode_dBZ_offset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#wivern_chilbolton_utils.encode_dBZ_offset" title="Permalink to this definition">¶</a></dt>
+<dd><p>This routine creates a dBZ_offset variable to store the offset.  It assumes this offset has already been applied.  Note: the routine assumes an additional offset of 10log10(PRF/512) will be added, so this should not be included when caling this function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>l1file</strong> – Full path of NetCDF Level 1 file, <cite>&lt;path-to-file&gt;/ncas-radar-w-band-1_cao_20201210-212823_fix-ts_l1_v1.0.nc</cite></p></li>
+<li><p><strong>dBZ_offset</strong> – value of dBZ offset already applied.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="wivern_chilbolton_utils.adjust_range_offset">
+<code class="sig-prename descclassname"><span class="pre">wivern_chilbolton_utils.</span></code><code class="sig-name descname"><span class="pre">adjust_range_offset</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">l1file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delta_range</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/wivern_chilbolton_utils.html#adjust_range_offset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#wivern_chilbolton_utils.adjust_range_offset" title="Permalink to this definition">¶</a></dt>
+<dd><p>This routine updates the range offset</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>l1file</strong> (<em>str</em>) – Full path of NetCDF Level 1 file, <cite>&lt;path-to-file&gt;/ncas-radar-camra-1_cao_20201210-212823_fix-ts_l1_v1.0.nc</cite></p></li>
+<li><p><strong>delta_range</strong> (<em>float</em>) – increment to be added to range in metres</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="wivern_chilbolton_utils.flag_bad_ray">
+<code class="sig-prename descclassname"><span class="pre">wivern_chilbolton_utils.</span></code><code class="sig-name descname"><span class="pre">flag_bad_ray</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">l1file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ray</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/wivern_chilbolton_utils.html#flag_bad_ray"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#wivern_chilbolton_utils.flag_bad_ray" title="Permalink to this definition">¶</a></dt>
+<dd><p>This routine flags individual rays as bad data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>l1file</strong> (<em>str</em>) – Full path of NetCDF Level 1 file, <cite>&lt;path-to-file&gt;/ncas-radar-camra-1_cao_20201210-212823_fix-ts_l1_v1.0.nc</cite></p></li>
+<li><p><strong>ray</strong> (<em>int</em>) – index of ray to be flagged</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="wivern_chilbolton_utils.correct_flagged_ray">
+<code class="sig-prename descclassname"><span class="pre">wivern_chilbolton_utils.</span></code><code class="sig-name descname"><span class="pre">correct_flagged_ray</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">l1file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ray</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/wivern_chilbolton_utils.html#correct_flagged_ray"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#wivern_chilbolton_utils.correct_flagged_ray" title="Permalink to this definition">¶</a></dt>
+<dd><p>This routine corrects a ray erroneously flagged as bad data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>l1file</strong> (<em>str</em>) – Full path of NetCDF Level 1 file, <cite>&lt;path-to-file&gt;/ncas-radar-camra-1_cao_20201210-212823_fix-ts_l1_v1.0.nc</cite></p></li>
+<li><p><strong>ray</strong> (<em>int</em>) – index of ray to have flag corrected</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="wivern_chilbolton_utils.update_copernicus_location">
+<code class="sig-prename descclassname"><span class="pre">wivern_chilbolton_utils.</span></code><code class="sig-name descname"><span class="pre">update_copernicus_location</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">l1file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/wivern_chilbolton_utils.html#update_copernicus_location"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#wivern_chilbolton_utils.update_copernicus_location" title="Permalink to this definition">¶</a></dt>
+<dd><p>This routine updates the latitude, longitude and altitude for the Copernicus radar</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>l1file</strong> – Full path of NetCDF Level 1 file, <cite>&lt;path-to-file&gt;/ncas-radar-camra-1_cao_20201210-212823_fix-ts_l1_v1.0.nc</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="wivern_chilbolton_utils.convert_camra_ts_l0b2l1">
+<code class="sig-prename descclassname"><span class="pre">wivern_chilbolton_utils.</span></code><code class="sig-name descname"><span class="pre">convert_camra_ts_l0b2l1</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">infile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outfile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dBZh_offset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ZDR_offset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">range_offset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/wivern_chilbolton_utils.html#convert_camra_ts_l0b2l1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#wivern_chilbolton_utils.convert_camra_ts_l0b2l1" title="Permalink to this definition">¶</a></dt>
+<dd><p>This routine converts Level 0b time series data from the Chilbolton Advanced Meteorological Radar (CAMRa) to Level 1 data.</p>
+<p>Processing is applied to produce I and Q time series for received data at each range gate.
+I and Q values from the limiting amplifiers in the receiver are compared with transmit I and Q for each pulse.
+These are then scaled to the unit circle and multiplied the square root of the sampled linear reflectivity.
+Processing includes separate calibration offsets for even (H-polarized) and odd (V-polarized) pulses.
+Metadata are added specific to the WIVERN-2 project ground-based observations collected in 2020-2021.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>infile</strong> (<em>str</em>) – Full path of NetCDF Level 0b input file, e.g. <cite>&lt;path-to-file&gt;/ncas-radar-camra-1_cao_20201210-212823_fix-ts_l0b_v1.0.nc</cite></p></li>
+<li><p><strong>outfile</strong> (<em>str</em>) – Full path of NetCDF Level 1 output file, e.g. <cite>&lt;path-to-file&gt;/ncas-radar-camra-1_cao_20201210-212823_fix-ts_l1_v1.0.nc</cite></p></li>
+<li><p><strong>dBZh_offset</strong> (<em>float</em>) – Calibration offset to be applied to H polarized reflectivity factor</p></li>
+<li><p><strong>ZDR_offset</strong> (<em>float</em>) – Calibration offset that would be applied to differential reflectivity (used to calculate the calibration offset to apply to V polarized reflectivity factor)</p></li>
+<li><p><strong>range_offset</strong> (<em>float</em>) – Additional range offset in metres to be applied</p></li>
+<li><p><strong>version</strong> (<em>str</em>) – Version of data product in the format <cite>N.m</cite>, where <cite>N</cite> denotes the major verion and <cite>m</cite> a minor revision.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="wivern_chilbolton_utils.convert_copernicus_ts_l0a2l1">
+<code class="sig-prename descclassname"><span class="pre">wivern_chilbolton_utils.</span></code><code class="sig-name descname"><span class="pre">convert_copernicus_ts_l0a2l1</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">infile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outfile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dBZ_offset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">range_offset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_version</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/wivern_chilbolton_utils.html#convert_copernicus_ts_l0a2l1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#wivern_chilbolton_utils.convert_copernicus_ts_l0a2l1" title="Permalink to this definition">¶</a></dt>
+<dd><p>This routine converts raw (Level 0a) time series data from the Chilbolton 35GHz Cloud Radar (Copernicus) to Level 1 data.
+Processing involves removing redundant dimensions, and removing bias from the ADC samples of the received I and Q.
+Metadata are added specific to the WIVERN-2 project ground-based observations collected in 2020-2021.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>infile</strong> (<em>str</em>) – Full path of binary Level 0a raw data file, e.g. <cite>&lt;path-to-file&gt;/2021061813445611_iqdata.bin</cite></p></li>
+<li><p><strong>outfile</strong> (<em>str</em>) – Full path of NetCDF Level 0b output file, e.g. <cite>&lt;path-to-file&gt;/ncas-radar-ka-band-1_cao_20210618-134456_fix-ts_l1_v1.0.nc</cite></p></li>
+<li><p><strong>dBZ_offset</strong> (<em>float</em>) – dB calibration offset to apply to reflectivity.  This is converted to linear units and I and Q values are multiplied by the square root of this value.</p></li>
+<li><p><strong>range_offset</strong> (<em>float</em>) – Range offset to apply in m.</p></li>
+<li><p><strong>data_version</strong> (<em>str</em>) – Version of data product in the format <cite>N.m</cite>, where <cite>N</cite> denotes the major verion and <cite>m</cite> a minor revision</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="wivern_chilbolton_utils.convert_galileo_ts_l0b2l1">
+<code class="sig-prename descclassname"><span class="pre">wivern_chilbolton_utils.</span></code><code class="sig-name descname"><span class="pre">convert_galileo_ts_l0b2l1</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">infile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outfile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dBZ_offset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">range_offset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_version</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/wivern_chilbolton_utils.html#convert_galileo_ts_l0b2l1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#wivern_chilbolton_utils.convert_galileo_ts_l0b2l1" title="Permalink to this definition">¶</a></dt>
+<dd><p>This routine converts raw (Level 0b) time series data from the Chilbolton 94GHz Cloud Radar (Galileo) to Level 1 data.
+Level 0b data have been generated from as-recorded Level 0a data by splitting the files along the time dimension and converting to NetCDF4.
+Processing by this routine involves removing redundant dimensions, and removing bias from the ADC samples of the received I and Q.
+Metadata are added specific to the WIVERN-2 project ground-based observations collected in 2020-2021.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>infile</strong> (<em>str</em>) – Full path of NetCDF Level 0b data file, e.g. <cite>&lt;path-to-file&gt;/radar-galileo_&lt;YYYYddmmHHMMSS&gt;-&lt;YYYYddmmHHMMSS&gt;_fix-ts.nc4</cite></p></li>
+<li><p><strong>outfile</strong> (<em>str</em>) – Full path of NetCDF Level 0b output file, e.g. <cite>&lt;path-to-file&gt;/ncas-radar-w-band-1_cao_20201210-212823_fix-ts_l1_v1.0.nc</cite></p></li>
+<li><p><strong>dBZ_offset</strong> – dB calibration offset to apply to reflectivity.  This is converted to linear units and I and Q values are multiplied by the square root of this value.</p></li>
+<li><p><strong>range_offset</strong> (<em>float</em>) – Range offset to apply in metres.</p></li>
+<li><p><strong>data_version</strong> (<em>str</em>) – Version of data product in the format <cite>N.m</cite>, where <cite>N</cite> denotes the major verion and <cite>m</cite> a minor revision.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="id0">
+<code class="sig-prename descclassname"><span class="pre">wivern_chilbolton_utils.</span></code><code class="sig-name descname"><span class="pre">convert_camra_ts_l0a2l0b</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">infile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outfile</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/wivern_chilbolton_utils.html#convert_camra_ts_l0a2l0b"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Permalink to this definition">¶</a></dt>
+<dd><p>This routine converts raw (Level 0a) time series data from the Chilbolton Advanced Meteorological Radar (CAMRa) to Level 0b data.
+Processing involves removing redundant dimensions, and removing bias from the ADC samples of transmit and receive I and Q.
+Single estimates of I and Q for each transmit pulse are produced and stored in the output file.
+Metadata are added specific to the WIVERN-2 project ground-based observations collected in 2020-2021.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>infile</strong> (<em>str</em>) – Full path of NetCDF Level 0a raw data file, e.g. <cite>&lt;path-to-file&gt;/radar-camra_20201210212823_fix-ts.nc</cite></p></li>
+<li><p><strong>outfile</strong> (<em>str</em>) – Full path of NetCDF Level 0b output file, e.g. <cite>&lt;path-to-file&gt;/ncas-radar-camra-1_cao_20201210-212823_fix-ts_l0b_v1.0.nc</cite></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="id1">
+<code class="sig-prename descclassname"><span class="pre">wivern_chilbolton_utils.</span></code><code class="sig-name descname"><span class="pre">convert_camra_ts_l0b2l1</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">infile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outfile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dBZh_offset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ZDR_offset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">range_offset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/wivern_chilbolton_utils.html#convert_camra_ts_l0b2l1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id1" title="Permalink to this definition">¶</a></dt>
+<dd><p>This routine converts Level 0b time series data from the Chilbolton Advanced Meteorological Radar (CAMRa) to Level 1 data.</p>
+<p>Processing is applied to produce I and Q time series for received data at each range gate.
+I and Q values from the limiting amplifiers in the receiver are compared with transmit I and Q for each pulse.
+These are then scaled to the unit circle and multiplied the square root of the sampled linear reflectivity.
+Processing includes separate calibration offsets for even (H-polarized) and odd (V-polarized) pulses.
+Metadata are added specific to the WIVERN-2 project ground-based observations collected in 2020-2021.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>infile</strong> (<em>str</em>) – Full path of NetCDF Level 0b input file, e.g. <cite>&lt;path-to-file&gt;/ncas-radar-camra-1_cao_20201210-212823_fix-ts_l0b_v1.0.nc</cite></p></li>
+<li><p><strong>outfile</strong> (<em>str</em>) – Full path of NetCDF Level 1 output file, e.g. <cite>&lt;path-to-file&gt;/ncas-radar-camra-1_cao_20201210-212823_fix-ts_l1_v1.0.nc</cite></p></li>
+<li><p><strong>dBZh_offset</strong> (<em>float</em>) – Calibration offset to be applied to H polarized reflectivity factor</p></li>
+<li><p><strong>ZDR_offset</strong> (<em>float</em>) – Calibration offset that would be applied to differential reflectivity (used to calculate the calibration offset to apply to V polarized reflectivity factor)</p></li>
+<li><p><strong>range_offset</strong> (<em>float</em>) – Additional range offset in metres to be applied</p></li>
+<li><p><strong>version</strong> (<em>str</em>) – Version of data product in the format <cite>N.m</cite>, where <cite>N</cite> denotes the major verion and <cite>m</cite> a minor revision.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="id2">
+<code class="sig-prename descclassname"><span class="pre">wivern_chilbolton_utils.</span></code><code class="sig-name descname"><span class="pre">convert_galileo_ts_l0b2l1</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">infile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outfile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dBZ_offset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">range_offset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_version</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/wivern_chilbolton_utils.html#convert_galileo_ts_l0b2l1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id2" title="Permalink to this definition">¶</a></dt>
+<dd><p>This routine converts raw (Level 0b) time series data from the Chilbolton 94GHz Cloud Radar (Galileo) to Level 1 data.
+Level 0b data have been generated from as-recorded Level 0a data by splitting the files along the time dimension and converting to NetCDF4.
+Processing by this routine involves removing redundant dimensions, and removing bias from the ADC samples of the received I and Q.
+Metadata are added specific to the WIVERN-2 project ground-based observations collected in 2020-2021.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>infile</strong> (<em>str</em>) – Full path of NetCDF Level 0b data file, e.g. <cite>&lt;path-to-file&gt;/radar-galileo_&lt;YYYYddmmHHMMSS&gt;-&lt;YYYYddmmHHMMSS&gt;_fix-ts.nc4</cite></p></li>
+<li><p><strong>outfile</strong> (<em>str</em>) – Full path of NetCDF Level 0b output file, e.g. <cite>&lt;path-to-file&gt;/ncas-radar-w-band-1_cao_20201210-212823_fix-ts_l1_v1.0.nc</cite></p></li>
+<li><p><strong>dBZ_offset</strong> – dB calibration offset to apply to reflectivity.  This is converted to linear units and I and Q values are multiplied by the square root of this value.</p></li>
+<li><p><strong>range_offset</strong> (<em>float</em>) – Range offset to apply in metres.</p></li>
+<li><p><strong>data_version</strong> (<em>str</em>) – Version of data product in the format <cite>N.m</cite>, where <cite>N</cite> denotes the major verion and <cite>m</cite> a minor revision.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="visualizing-results">
+<h3>Visualizing results<a class="headerlink" href="#visualizing-results" title="Permalink to this headline">¶</a></h3>
+<p>CloudnetPy offers an easy-to-use plotting interface:</p>
+<p>There is also possibility to compare CloundetPy files with the
+Matlab-processed legacy files
+(tagged “legacy” in the <a class="reference external" href="https://cloudnet.fmi.fi">Cloudnet data portal</a>):</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="quickstart.html" class="btn btn-neutral float-left" title="Quickstart" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="fileformat.html" class="btn btn-neutral float-right" title="Filename conventions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, UK Research and Innovation.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

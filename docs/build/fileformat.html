@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Filename conventions &mdash; wivern2-chilbolton 1.0.0 documentation</title><link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Software description" href="processing_software.html" />
+    <link rel="prev" title="Overview" href="overview.html" />
+    <link href="_static/custom.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> wivern2-chilbolton
+          </a>
+              <div class="version">
+                1.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Filename conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#file-format-description">File format description</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#level-1-files">Level 1 files</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#common-global-attributes">Common global attributes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scalar-variables">Scalar variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dimensions">Dimensions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#coordinate-variables">Coordinate variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#field-variables">Field variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#quality-control-variables">Quality control variables</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="processing_software.html">Software description</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">wivern2-chilbolton</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Filename conventions</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/fileformat.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="filename-conventions">
+<h1>Filename conventions<a class="headerlink" href="#filename-conventions" title="Permalink to this headline">¶</a></h1>
+<p>Each radar file follows the following naming convention:</p>
+<p><cite>&lt;instrument_name&gt;_&lt;platform_name&gt;_&lt;date&gt;-&lt;time&gt;_&lt;scan_type&gt;_&lt;processing_level&gt;_v&lt;version&gt;.nc</cite>,</p>
+<p>where the platform name is set to <cite>cao</cite>, to denote Chilbolton Atmospheric
+Observatory, and the date is given in the format <cite>&lt;YYYYmmdd&gt;</cite>.</p>
+<p>The scan_type is <cite>fix-ts</cite>, as all files relate to time series from fixed vertical
+pointing dwells.</p>
+<p>There are three instruments:</p>
+<p><cite>ncas-radar-camra-1</cite> is the 3 GHz Chilbolton Advanced Meteorological Radar
+(CAMRa), which uses the 25 m Chilbolton antenna.</p>
+<p><cite>ncas-radar-ka-band-1</cite> is the 35 GHz Copernicus cloud radar, which has a 2.4 m
+fixed vertically pointing antenna.</p>
+<p><cite>ncas-radar-w-band-1</cite> is the 94 GHz Galileo radar, which is a bistatic system
+with two 0.46 m antennae separated by 0.66 m.</p>
+</div>
+<div class="section" id="file-format-description">
+<span id="file-format"></span><h1>File format description<a class="headerlink" href="#file-format-description" title="Permalink to this headline">¶</a></h1>
+<p>Level 1 files are provided, and follow the description below.  They have been
+derived by processing Level 0a (as-recorded) data, with the processing steps
+indicated in the history attribute.  See <a class="reference internal" href="processing_software.html#raw-data-conversion"><span class="std std-ref">Raw data conversion</span></a> for a
+summary of processing software.</p>
+<div class="section" id="level-1-files">
+<h2>Level 1 files<a class="headerlink" href="#level-1-files" title="Permalink to this headline">¶</a></h2>
+<p>These files are in NetCDF-4 format with the following content:</p>
+<div class="section" id="common-global-attributes">
+<h3>Common global attributes<a class="headerlink" href="#common-global-attributes" title="Permalink to this headline">¶</a></h3>
+<p>The following global atrributes are present for all three radars:</p>
+<table class="longtable colwidths-auto docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Example</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>product_version</p></td>
+<td><p>v1.0</p></td>
+</tr>
+<tr class="row-odd"><td><p>licence</p></td>
+<td><p>This dataset is released for use under a Creative Commons Attribution 4.0
+International (CC-BY 4.0) license
+(see <a class="reference external" href="https://creativecommons.org/licenses/by/4.0/">https://creativecommons.org/licenses/by/4.0/</a> for terms and conditions)</p></td>
+</tr>
+<tr class="row-even"><td><p>acknowledgement</p></td>
+<td><p>This dataset was developed as part of the activity
+“Doppler Wind Radar Science Performance Study (WIVERN-2)”, funded by the
+European Space Agency under Contract no. 4000130864/20/NL/CT.  Users should
+acknowledge UK Research and Innovation as the data provider (in partnership
+with the National Centre for Atmospheric Science)</p></td>
+</tr>
+<tr class="row-odd"><td><p>platform</p></td>
+<td><p>Chilbolton Atmospheric Observatory</p></td>
+</tr>
+<tr class="row-even"><td><p>platform_type</p></td>
+<td><p>stationary_platform.</p></td>
+</tr>
+<tr class="row-odd"><td><p>creator_name</p></td>
+<td><p>Chris Walden</p></td>
+</tr>
+<tr class="row-even"><td><p>creator_email</p></td>
+<td><p><a class="reference external" href="mailto:chris&#46;walden&#37;&#52;&#48;ncas&#46;ac&#46;uk">chris<span>&#46;</span>walden<span>&#64;</span>ncas<span>&#46;</span>ac<span>&#46;</span>uk</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>creator_url</p></td>
+<td><p><a class="reference external" href="https://orcid.org/0000-0002-5718-466X">https://orcid.org/0000-0002-5718-466X</a></p></td>
+</tr>
+<tr class="row-even"><td><p>institution</p></td>
+<td><p>National Centre for Atmospheric Science (NCAS)</p></td>
+</tr>
+<tr class="row-odd"><td><p>instrument_name</p></td>
+<td><p>ncas-radar-camra-1</p></td>
+</tr>
+<tr class="row-even"><td><p>instrument_software</p></td>
+<td><p>radar-camra-rec</p></td>
+</tr>
+<tr class="row-odd"><td><p>instrument_software_version</p></td>
+<td><p>1.4 Rev 58</p></td>
+</tr>
+<tr class="row-even"><td><p>references</p></td>
+<td><p><a class="reference external" href="https://doi.org/10.1049/ecej:19940205">https://doi.org/10.1049/ecej:19940205</a>; <a class="reference external" href="http://purl.org/net/epubs/work/63318">http://purl.org/net/epubs/work/63318</a>;
+<a class="reference external" href="https://doi.org/10.1109/IGARSS.2006.429">https://doi.org/10.1109/IGARSS.2006.429</a>; <a class="reference external" href="https://doi.org/10.3390/atmos10110714">https://doi.org/10.3390/atmos10110714</a>;</p></td>
+</tr>
+<tr class="row-odd"><td><p>source</p></td>
+<td><p>3GHz Chilbolton Advanced Meteorological Radar (CAMRa)</p></td>
+</tr>
+<tr class="row-even"><td><p>project</p></td>
+<td><p>WIVERN-2 Doppler Wind Radar Science Performance Study</p></td>
+</tr>
+<tr class="row-odd"><td><p>project_principal_investigator</p></td>
+<td><p>Anthony Illingworth</p></td>
+</tr>
+<tr class="row-even"><td><p>project_principal_investigator_email</p></td>
+<td><p><a class="reference external" href="mailto:a&#46;j&#46;illingworth&#37;&#52;&#48;reading&#46;ac&#46;uk">a<span>&#46;</span>j<span>&#46;</span>illingworth<span>&#64;</span>reading<span>&#46;</span>ac<span>&#46;</span>uk</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>project_principal_investigator_url</p></td>
+<td><p><a class="reference external" href="https://orcid.org/0000-0002-5774-8410">https://orcid.org/0000-0002-5774-8410</a></p></td>
+</tr>
+<tr class="row-even"><td><p>processing_software_url</p></td>
+<td><p><a class="reference external" href="https://github.com/longlostjames/wivern_chilbolton_utils.git">https://github.com/longlostjames/wivern_chilbolton_utils.git</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>processing_software_version</p></td>
+<td><p>1.0</p></td>
+</tr>
+<tr class="row-even"><td><p>processing_level</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-odd"><td><p>scantype</p></td>
+<td><p>vertical_pointing</p></td>
+</tr>
+<tr class="row-even"><td><p>time_coverage_start</p></td>
+<td><p>2020-10-01T18:09:28Z</p></td>
+</tr>
+<tr class="row-odd"><td><p>time_coverage_end</p></td>
+<td><p>2020-10-01T18:21:22Z</p></td>
+</tr>
+<tr class="row-even"><td><p>geospatial_bounds</p></td>
+<td><p>51.1450N -1.4384E</p></td>
+</tr>
+<tr class="row-odd"><td><p>pulse_compression</p></td>
+<td><p>false</p></td>
+</tr>
+<tr class="row-even"><td><p>ADC_bits_per_sample</p></td>
+<td><p>12</p></td>
+</tr>
+<tr class="row-odd"><td><p>ADC_channels</p></td>
+<td><p>8</p></td>
+</tr>
+<tr class="row-even"><td><p>last_revised_date</p></td>
+<td><p>2022-03-28T14:19:36Z</p></td>
+</tr>
+<tr class="row-odd"><td><p>title</p></td>
+<td><p>Calibrated time series from 3 GHz CAMRa radar collected for ESA WIVERN-2
+campaign at Chilbolton Observatory</p></td>
+</tr>
+<tr class="row-even"><td><p>comment</p></td>
+<td><p>Correction to account for inverse square power loss with range has not been
+applied</p></td>
+</tr>
+<tr class="row-odd"><td><p>history</p></td>
+<td><p>Mon Feb 28 17:20:39 2022 - user:cjwalden machine: host293.jc.rl.ac.uk program:
+wivern_chilbolton_utils.py convert_camra_ts_l0b2l1 version:1.0n
+Mon Feb 28 17:20:00 2022 - user:cjwalden machine: host293.jc.rl.ac.uk program:
+wivern_chilbolton_utils.py convert_camra_ts_l0a2l0b version:1.0n
+Mon Dec  6 16:58:37 2021: /home/users/cjwalden/anaconda3/envs/cao_3_8/bin/ncks
+-d time,6,37 –output=radar-camra_20201001180645_fix-ts.nc
+radar-camra_20201001180645_fix-ts_orig.ncn
+Thu Oct 01 18:07:00 2020 - /usr/local/bin/radar-camra-rec -fix 3600 115 90
+-gates 5 201 -cellsize 1 -pulse_pairs 3050 -op rad -id 0 -file 8030 -scan 7827
+-date 20201001180645 -tsdump -tssamples 200</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="scalar-variables">
+<h3>Scalar variables<a class="headerlink" href="#scalar-variables" title="Permalink to this headline">¶</a></h3>
+<p>The following scalar variables are present for all three radars:</p>
+<table class="longtable colwidths-auto docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Data type</p></th>
+<th class="head"><p>Long name</p></th>
+<th class="head"><p>Units</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>latitude</p></td>
+<td><p>float32</p></td>
+<td><p>latitude of the antenna</p></td>
+<td><p>degree_north</p></td>
+</tr>
+<tr class="row-odd"><td><p>longitude</p></td>
+<td><p>float32</p></td>
+<td><p>longitude of the antenna</p></td>
+<td><p>degree_east</p></td>
+</tr>
+<tr class="row-even"><td><p>altitude</p></td>
+<td><p>float32</p></td>
+<td><p>altitude of the elevation axis above the geoid (WGS84)</p></td>
+<td><p>m</p></td>
+</tr>
+<tr class="row-odd"><td><p>altitude_agl</p></td>
+<td><p>float32</p></td>
+<td><p>altitude of the elevation axis above ground</p></td>
+<td><p>m</p></td>
+</tr>
+<tr class="row-even"><td><p>frequency</p></td>
+<td><p>float32</p></td>
+<td><p>frequency of transmitted radiation</p></td>
+<td><p>GHz</p></td>
+</tr>
+<tr class="row-odd"><td><p>prf</p></td>
+<td><p>float32</p></td>
+<td><p>pulse repetition frequency</p></td>
+<td><p>Hz</p></td>
+</tr>
+<tr class="row-even"><td><p>beamwidthH</p></td>
+<td><p>float32</p></td>
+<td><p>horizontal angular beamwidth</p></td>
+<td><p>degree</p></td>
+</tr>
+<tr class="row-odd"><td><p>beamwidthV</p></td>
+<td><p>float32</p></td>
+<td><p>vertical angular beamwidth</p></td>
+<td><p>degree</p></td>
+</tr>
+<tr class="row-even"><td><p>antenna_diameter</p></td>
+<td><p>float32</p></td>
+<td><p>antenna diameter</p></td>
+<td><p>m</p></td>
+</tr>
+<tr class="row-odd"><td><p>antenna_focal_length</p></td>
+<td><p>float32</p></td>
+<td><p>focal length of antenna</p></td>
+<td><p>m</p></td>
+</tr>
+<tr class="row-even"><td><p>antenna_focus_radial_location</p></td>
+<td><p>float32</p></td>
+<td><p>distance along boresight from elevation axis to focus</p></td>
+<td><p>m</p></td>
+</tr>
+<tr class="row-odd"><td><p>pulse_width</p></td>
+<td><p>float32</p></td>
+<td><p>pulse width</p></td>
+<td><p>us</p></td>
+</tr>
+<tr class="row-even"><td><p>transmit_power</p></td>
+<td><p>float32</p></td>
+<td><p>peak transmitted power</p></td>
+<td><p>W</p></td>
+</tr>
+<tr class="row-odd"><td><p>clock</p></td>
+<td><p>float32</p></td>
+<td><p>clock input to timer card</p></td>
+<td><p>Hz</p></td>
+</tr>
+<tr class="row-even"><td><p>clock_divide_factor</p></td>
+<td><p>float32</p></td>
+<td><p>clock divide factor</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-odd"><td><p>delay_clocks</p></td>
+<td><p>float32</p></td>
+<td><p>clock cycles before sampling is initiated</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-even"><td><p>samples_per_pulse</p></td>
+<td><p>float32</p></td>
+<td><p>number of samples per pulse</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-odd"><td><p>pulses_per_daq_cycle</p></td>
+<td><p>float32</p></td>
+<td><p>number of pulses per data acquisition cycle</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-even"><td><p>pulses_per_ray</p></td>
+<td><p>float32</p></td>
+<td><p>number of pulses per ray</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-odd"><td><p>radar_constant</p></td>
+<td><p>float32</p></td>
+<td><p>radar constant</p></td>
+<td><p>dB</p></td>
+</tr>
+<tr class="row-even"><td><p>receiver_gain</p></td>
+<td><p>float32</p></td>
+<td><p>receiver gain</p></td>
+<td><p>dB</p></td>
+</tr>
+<tr class="row-odd"><td><p>cable_losses</p></td>
+<td><p>float32</p></td>
+<td><p>cable losses</p></td>
+<td><p>dB</p></td>
+</tr>
+<tr class="row-even"><td><p>extra_attenuation</p></td>
+<td><p>float32</p></td>
+<td><p>extra attenuation</p></td>
+<td><p>dB</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="dimensions">
+<h3>Dimensions<a class="headerlink" href="#dimensions" title="Permalink to this headline">¶</a></h3>
+<p>The following dimensions are present for all three radars: <cite>time</cite>, <cite>pulse</cite> and <cite>range</cite>.</p>
+</div>
+<div class="section" id="coordinate-variables">
+<h3>Coordinate variables<a class="headerlink" href="#coordinate-variables" title="Permalink to this headline">¶</a></h3>
+<p>These have slightly different interpretation depending on the particular radar.</p>
+<p><strong>3GHz CAMRa radar</strong></p>
+<table class="longtable colwidths-auto docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Data type</p></th>
+<th class="head"><p>Dimension</p></th>
+<th class="head"><p>Long name</p></th>
+<th class="head"><p>Units</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>time</p></td>
+<td><p>float32</p></td>
+<td><p>time</p></td>
+<td><p>time at the end of each recorded ray</p></td>
+<td><p>seconds since 2020-09-22 00:00:00 +00:00</p></td>
+</tr>
+<tr class="row-odd"><td><p>range</p></td>
+<td><p>float32</p></td>
+<td><p>range</p></td>
+<td><p>distance from the antenna to the middle of each range gate</p></td>
+<td><p>m</p></td>
+</tr>
+<tr class="row-even"><td><p>elevation</p></td>
+<td><p>float32</p></td>
+<td><p>time</p></td>
+<td><p>elevation angle of the antenna boresight above the horizon.</p></td>
+<td><p>degree</p></td>
+</tr>
+<tr class="row-odd"><td><p>azimuth</p></td>
+<td><p>float32</p></td>
+<td><p>time</p></td>
+<td><p>azimuth angle of the antenna boresight clockwise from grid north.</p></td>
+<td><p>degree</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>35GHz Copernicus radar</strong></p>
+<table class="longtable colwidths-auto docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Data type</p></th>
+<th class="head"><p>Dimension</p></th>
+<th class="head"><p>Long name</p></th>
+<th class="head"><p>Units</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>time</p></td>
+<td><p>float32</p></td>
+<td><p>time</p></td>
+<td><p>time at the end of each recorded ray</p></td>
+<td><p>seconds since 2020-09-22 00:00:00 +00:00</p></td>
+</tr>
+<tr class="row-odd"><td><p>range</p></td>
+<td><p>float32</p></td>
+<td><p>range</p></td>
+<td><p>distance from the antenna to the middle of each range gate</p></td>
+<td><p>m</p></td>
+</tr>
+<tr class="row-even"><td><p>elevation</p></td>
+<td><p>float32</p></td>
+<td><p>time</p></td>
+<td><p>elevation angle of the antenna boresight above the horizon.</p></td>
+<td><p>degree</p></td>
+</tr>
+<tr class="row-odd"><td><p>azimuth</p></td>
+<td><p>float32</p></td>
+<td><p>time</p></td>
+<td><p>azimuth angle of the antenna boresight clockwise from grid north.</p></td>
+<td><p>degree</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>94GHz Galileo radar</strong></p>
+<table class="longtable colwidths-auto docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Data type</p></th>
+<th class="head"><p>Dimension</p></th>
+<th class="head"><p>Long name</p></th>
+<th class="head"><p>Units</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>time</p></td>
+<td><p>float32</p></td>
+<td><p>time</p></td>
+<td><p>time at the end of each recorded ray</p></td>
+<td><p>seconds since 2020-09-22 00:00:00 +00:00</p></td>
+</tr>
+<tr class="row-odd"><td><p>range</p></td>
+<td><p>float32</p></td>
+<td><p>range</p></td>
+<td><p>distance from the antenna to the middle of each range gate</p></td>
+<td><p>m</p></td>
+</tr>
+<tr class="row-even"><td><p>elevation</p></td>
+<td><p>float32</p></td>
+<td><p>time</p></td>
+<td><p>elevation angle above the horizon of the plane containing the transmit and receive
+antenna boresights</p></td>
+<td><p>degree</p></td>
+</tr>
+<tr class="row-odd"><td><p>azimuth</p></td>
+<td><p>float32</p></td>
+<td><p>time</p></td>
+<td><p>azimuth angle clockwise from grid north of the plane in
+which the antenna boresights are tilted away from zenith</p></td>
+<td><p>degree</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="field-variables">
+<h3>Field variables<a class="headerlink" href="#field-variables" title="Permalink to this headline">¶</a></h3>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 8%" />
+<col style="width: 13%" />
+<col style="width: 41%" />
+<col style="width: 21%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Date type</p></th>
+<th class="head"><p>Dimensions</p></th>
+<th class="head"><p>Long name</p></th>
+<th class="head"><p>Units</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>I</p></td>
+<td><p>float32</p></td>
+<td><p>time, pulse, range</p></td>
+<td><p>co-polar in-phase video signal</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-odd"><td><p>Q</p></td>
+<td><p>float32</p></td>
+<td><p>time, pulse, range</p></td>
+<td><p>co-polar quadrature video signal</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-even"><td><p>ZCX</p></td>
+<td><p>float32</p></td>
+<td><p>time, pulse, range</p></td>
+<td><p>cross-polar radar equivalent reflectivity factor</p></td>
+<td><p>dBZ</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="quality-control-variables">
+<h3>Quality control variables<a class="headerlink" href="#quality-control-variables" title="Permalink to this headline">¶</a></h3>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 8%" />
+<col style="width: 13%" />
+<col style="width: 41%" />
+<col style="width: 21%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Date type</p></th>
+<th class="head"><p>Dimensions</p></th>
+<th class="head"><p>Long name</p></th>
+<th class="head"><p>Units</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>qc_flag</p></td>
+<td><p>uint8</p></td>
+<td><p>time, pulse, range</p></td>
+<td><p>quality control flag</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>dBZ_offsets_applied</p></td>
+<td><p>float32</p></td>
+<td><p>pulse</p></td>
+<td><p>dBZ calibration offset applied for even and odd pulses</p></td>
+<td><p>dB</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="overview.html" class="btn btn-neutral float-left" title="Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="processing_software.html" class="btn btn-neutral float-right" title="Software description" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, UK Research and Innovation.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

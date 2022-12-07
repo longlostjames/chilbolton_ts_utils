@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quickstart &mdash; wivern2-chilbolton 1.0.0 documentation</title><link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link href="_static/custom.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> wivern2-chilbolton
+          </a>
+              <div class="version">
+                1.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fileformat.html">Filename conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fileformat.html#file-format-description">File format description</a></li>
+<li class="toctree-l1"><a class="reference internal" href="processing_software.html">Software description</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">wivern2-chilbolton</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Quickstart</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/quickstart.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="quickstart">
+<h1>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h1>
+<p>Processing is easy using CloudnetPy’s high level APIs. You only need some
+measurement data from your instruments. And if you don’t have it, you can
+always try <a class="reference external" href="http://lake.fmi.fi/cloudnet-public/cloudnetpy_test_input_files.zip">these example files</a>.</p>
+<div class="section" id="radar-processing">
+<h2>Radar processing<a class="headerlink" href="#radar-processing" title="Permalink to this headline">¶</a></h2>
+<p>Conversion routines to generate Level 1 data <code class="docutils literal notranslate"><span class="pre">wivern2_camra.py</span></code></p>
+<p>In the first example we convert a raw METEK MIRA-36 cloud radar file into
+Cloudnet netCDF file that can be used in further processing steps.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cloudnetpy.instruments</span> <span class="kn">import</span> <span class="n">mira2nc</span>
+<span class="n">uuid</span> <span class="o">=</span> <span class="n">mira2nc</span><span class="p">(</span><span class="s1">&#39;raw_mira_radar.mmclx&#39;</span><span class="p">,</span> <span class="s1">&#39;radar.nc&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Mace-Head&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">uuid</span></code> is an unique identifier for the generated <code class="docutils literal notranslate"><span class="pre">radar.nc</span></code> file.
+For more information, see <a class="reference external" href="api.html#instruments.mira2nc">API reference</a> for this function.</p>
+</div>
+<div class="section" id="lidar-processing">
+<h2>Lidar processing<a class="headerlink" href="#lidar-processing" title="Permalink to this headline">¶</a></h2>
+<p>Next we convert a raw Jenoptik CHM15k ceilometer (lidar) file into Cloudnet netCDF file
+and process the signal-to-noise screened backscatter. Also this converted lidar
+file will be needed later.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cloudnetpy.instruments</span> <span class="kn">import</span> <span class="n">ceilo2nc</span>
+<span class="n">uuid</span> <span class="o">=</span> <span class="n">ceilo2nc</span><span class="p">(</span><span class="s1">&#39;raw_chm15k_lidar.nc&#39;</span><span class="p">,</span> <span class="s1">&#39;lidar.nc&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;Mace-Head&#39;</span><span class="p">,</span> <span class="s1">&#39;altitude&#39;</span><span class="p">:</span><span class="mi">5</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">uuid</span></code> is an unique identifier for the generated <code class="docutils literal notranslate"><span class="pre">lidar.nc</span></code> file.
+For more information, see <a class="reference external" href="api.html#instruments.ceilo2nc">API reference</a> for this function.</p>
+</div>
+<div class="section" id="mwr-processing">
+<h2>MWR processing<a class="headerlink" href="#mwr-processing" title="Permalink to this headline">¶</a></h2>
+<p>Processing of multi-channel HATPRO microwave radiometer (MWR) data is not part of CloudnetPy.
+Thus, site operators need to run custom processing software to retrieve integrated liquid
+water path (LWP) from raw HATPRO measurements.</p>
+<p>However, with a 94 GHz RPG cloud radar, a separate MWR instrument is not necessarely
+required. RPG radars contain single MWR channel providing a rough estimate
+of LWP, which can be used in CloudnetPy. Nevertheless, it is always
+recommended to equip a measurement site with a dedicated multi-channel
+radiometer if possible.</p>
+</div>
+<div class="section" id="model-data">
+<h2>Model data<a class="headerlink" href="#model-data" title="Permalink to this headline">¶</a></h2>
+<p>Model files needed in the next processing step can be downloaded
+from the <a class="reference external" href="https://actris-cloudnet.github.io/dataportal/">Cloudnet http API</a>.
+Several models may be available depending on the site and date.
+The list of different model models can be found <a class="reference external" href="https://cloudnet.fmi.fi/api/models/">here</a>.</p>
+</div>
+<div class="section" id="categorize-processing">
+<h2>Categorize processing<a class="headerlink" href="#categorize-processing" title="Permalink to this headline">¶</a></h2>
+<p>After processing the raw radar and raw lidar files, and acquiring
+the model and mwr files, a Cloudnet categorize file can be created.</p>
+<p>In the next example we create a categorize file starting from the
+<code class="docutils literal notranslate"><span class="pre">radar.nc</span></code> and <code class="docutils literal notranslate"><span class="pre">lidar.nc</span></code> files generated above. The required
+<code class="docutils literal notranslate"><span class="pre">ecmwf_model.nc</span></code> and <code class="docutils literal notranslate"><span class="pre">hatpro_mwr.nc</span></code> files are
+included in the provided <a class="reference external" href="http://devcloudnet.fmi.fi/files/cloudnetpy_test_input_files.zip">example input files</a>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cloudnetpy.categorize</span> <span class="kn">import</span> <span class="n">generate_categorize</span>
+<span class="n">input_files</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;radar&#39;</span><span class="p">:</span> <span class="s1">&#39;radar.nc&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;lidar&#39;</span><span class="p">:</span> <span class="s1">&#39;lidar.nc&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;model&#39;</span><span class="p">:</span> <span class="s1">&#39;ecmwf_model.nc&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;mwr&#39;</span><span class="p">:</span> <span class="s1">&#39;hatpro_mwr.nc&#39;</span>
+    <span class="p">}</span>
+<span class="n">uuid</span> <span class="o">=</span> <span class="n">generate_categorize</span><span class="p">(</span><span class="n">input_files</span><span class="p">,</span> <span class="s1">&#39;categorize.nc&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">uuid</span></code> is an unique identifier for the generated <code class="docutils literal notranslate"><span class="pre">categorize.nc</span></code> file.
+For more information, see <a class="reference external" href="api.html#categorize.generate_categorize">API reference</a> for this function.
+Note that with a 94 GHz RPG cloud radar, the <code class="docutils literal notranslate"><span class="pre">radar.nc</span></code> file can be used as input
+for both inputs: <code class="docutils literal notranslate"><span class="pre">'radar'</span></code> and <code class="docutils literal notranslate"><span class="pre">'mwr'</span></code>.</p>
+</div>
+<div class="section" id="processing-products">
+<h2>Processing products<a class="headerlink" href="#processing-products" title="Permalink to this headline">¶</a></h2>
+<p>In the last example we create the smallest and simplest Cloudnet
+product, the classification product. The product-generating functions always
+use a categorize file as an input.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cloudnetpy.products</span> <span class="kn">import</span> <span class="n">generate_classification</span>
+<span class="n">uuid</span> <span class="o">=</span> <span class="n">generate_classification</span><span class="p">(</span><span class="s1">&#39;categorize.nc&#39;</span><span class="p">,</span> <span class="s1">&#39;classification.nc&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">uuid</span></code> is an unique identifier for the generated <code class="docutils literal notranslate"><span class="pre">classification.nc</span></code> file.
+Corresponding functions are available for other products
+(see <span class="xref std std-ref">Product generation</span>).</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, UK Research and Innovation.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
