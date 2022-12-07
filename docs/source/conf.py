@@ -22,7 +22,7 @@ sys.path.insert(0, os.path.abspath('../..'))
 
 # -- Project information -----------------------------------------------------
 
-project = 'wivern2-chilbolton'
+project = 'chilbolton-ts-utils'
 copyright = '2022, UK Research and Innovation'
 author = 'Chris Walden'
 
@@ -127,7 +127,7 @@ def setup(app):
 # -- Options for HTMLHelp output ---------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'wivern2doc'
+htmlhelp_basename = 'chiltsdoc'
 
 
 # -- Options for LaTeX output ------------------------------------------------
@@ -154,7 +154,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'wivern2-chilbolton.tex', 'wivern2-chilbolton Documentation',
+    (master_doc, 'chilbolton-ts-utils.tex', 'chilbolton-ts-utils Documentation',
      'UK Research and Innovation', 'manual'),
 ]
 
@@ -164,7 +164,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'wivern2-chilbolton', 'wivern2-chilbolton Documentation',
+    (master_doc, 'chilbolton-ts-utils', 'chilbolton-ts-utils Documentation',
      [author], 1)
 ]
 
@@ -175,8 +175,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'wivern2-chilbolton', 'wivern2-chilbolton Documentation',
-     author, 'wivern2-chilbolton', 'One line description of project.',
+    (master_doc, 'chilbolton-ts-utils', 'chilbolton-ts-utils Documentation',
+     author, 'chilbolton-ts-utils', 'One line description of project.',
      'Miscellaneous'),
 ]
 
