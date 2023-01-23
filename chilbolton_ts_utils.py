@@ -1749,7 +1749,7 @@ def process_camra_ts(datestr,inpath,outpath,yaml_project_file,tracking_tag):
 
     return
 
-def process_wivern2_copernicus_ts(datestr,inpath,outpath):
+def process_copernicus_ts(datestr,inpath,outpath):
 
     pattern = '{}*_iqdata.bin'.format(datestr);
 
@@ -1804,7 +1804,7 @@ def process_wivern2_copernicus_ts(datestr,inpath,outpath):
 
     return
 
-def process_wivern2_galileo_ts(datestr,inpath,outpath):
+def process_galileo_ts(datestr,inpath,outpath):
 
     pattern = '*{}*_fix-fft-raw.nc4'.format(datestr);
 
