@@ -994,6 +994,27 @@ def convert_copernicus_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_ver
     :type data_version: str
     """
 
+
+    with open(yaml_project_file, "r") as stream:
+        try:
+            projects = yaml.safe_load(stream)
+        except yaml.YAMLError as exc:
+            print(exc)
+
+    for p in projects:
+        if tracking_tag in p:
+            project = p[tracking_tag];
+
+#    project = projects["tracking_tag"];
+
+    radar = "ncas-radar-camra-1";
+
+    for n in project["ncas_instruments"]:
+        if radar in n:
+            ncas_instrument = n[radar];
+
+    print(ncas_instrument);
+
     # -------------------------------
     # Read binary IQ time-series file
     # -------------------------------
