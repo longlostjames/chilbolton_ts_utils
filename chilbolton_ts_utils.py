@@ -1040,17 +1040,19 @@ def convert_copernicus_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_ver
     # -----------------------------
     DSout = nc4.Dataset(outfile,mode='w',format='NETCDF4')
 
+
     # ------------------------
     # Set up global attributes
     # ------------------------
     DSout.product_version = "v{}".format(data_version);
     DSout.processing_level = "1" ;
 
-    DSout.licence = project["licence"];
+    DSout.licence = project["data_licence"];
     DSout.acknowledgement = project["acknowledgement"];
     DSout.platform = "Chilbolton Atmospheric Observatory" ;
     DSout.platform_type = "stationary_platform" ;
-    DSout.title = "Time series from 35 GHz Copernicus radar collected for ESA WIVERN-2 campaign at Chilbolton Observatory";
+    DSout.title = ncas_instrument["title"];
+    #DSout.title = "Time series from 35 GHz Copernicus radar collected for ESA WIVERN-2 campaign at Chilbolton Observatory";
     DSout.creator_name = "Chris Walden" ;
     DSout.creator_email = "chris.walden@ncas.ac.uk" ;
     DSout.creator_url = "https://orcid.org/0000-0002-5718-466X" ;
@@ -1062,12 +1064,13 @@ def convert_copernicus_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_ver
     DSout.references = "";
     DSout.source = "35GHz Copernicus Radar";
     DSout.comment = "";
-    DSout.project = "WIVERN-2 Doppler Wind Radar Science Performance Study";
-    DSout.project_principal_investigator = "Anthony Illingworth";
-    DSout.project_principal_investigator_email = "a.j.illingworth@reading.ac.uk";
-    DSout.project_principal_investigator_url = "https://orcid.org/0000-0002-5774-8410";
+    DSout.project = project["project_name"];
+    DSout.project_principal_investigator = project["principal_investigator"]["name"];
+    DSout.project_principal_investigator_email = project["principal_investigator"]["email"];
+    DSout.project_principal_investigator_url = project["principal_investigator"]["pid"];
+   
 
-    DSout.processing_software_url = "https://github.com/longlostjames/wivern_chilbolton_utils.git";
+    DSout.processing_software_url = "https://github.com/longlostjames/chilbolton_ts_utils.git";
     DSout.processing_software_version = "1.0";
 
     DSout.scantype = "vertical_pointing";
