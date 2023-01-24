@@ -206,8 +206,8 @@ def convert_camra_ts_l0a2l0b(infile,outfile,yaml_project_file,tracking_tag):
 
     DSout.pulse_compression = "false";
 
-    DSout.ADC_bits_per_sample = np.int(DSin.ADC_bits_per_sample);
-    DSout.ADC_channels        = np.int(DSin.ADC_channels);
+    DSout.ADC_bits_per_sample = int(DSin.ADC_bits_per_sample);
+    DSout.ADC_channels        = int(DSin.ADC_channels);
 
     # ----------------
     # Scalar variables
@@ -1396,8 +1396,8 @@ def convert_galileo_ts_l0b2l1(infile,outfile,dBZ_offset,range_offset,data_versio
 
     DSout.pulse_compression = "false";
 
-    DSout.ADC_bits_per_sample = np.int(12);
-    DSout.ADC_channels        = np.int(8);
+    DSout.ADC_bits_per_sample = int(12);
+    DSout.ADC_channels        = int(8);
 
     # ----------------
     # Scalar variables
@@ -1629,7 +1629,7 @@ def convert_galileo_ts_l0b2l1(infile,outfile,dBZ_offset,range_offset,data_versio
     varout.comment = 'Scaled to account for calibration for square root of linear reflectivity factor';
 #    add_offset = np.min(Ico[:]);
 #    scale_factor = (np.max(Ico[:])-np.min(Ico[:])) / (2**16-1)
-#    packed_data = np.int16(np.rint((Ico[:,:,:] - add_offset)/scale_factor));
+#    packed_data = int16(np.rint((Ico[:,:,:] - add_offset)/scale_factor));
     #varout.scale_factor = np.float32(scale_factor);
     #varout.add_offset = np.float32(add_offset);
     #varout[:] = packed_data;
@@ -1642,7 +1642,7 @@ def convert_galileo_ts_l0b2l1(infile,outfile,dBZ_offset,range_offset,data_versio
     varout.comment = 'Scaled to account for calibration for square root of linear reflectivity factor';
 #    add_offset = np.min(Qco);
 #    scale_factor = (np.max(Qco)-np.min(Qco)) / (2**16-1)
-#    packed_data = np.int16(np.rint((Qco - add_offset)/scale_factor));
+#    packed_data = int16(np.rint((Qco - add_offset)/scale_factor));
     #varout.scale_factor = np.float32(scale_factor);
     #varout.add_offset = np.float32(add_offset);
     #varout[:] = packed_data;
