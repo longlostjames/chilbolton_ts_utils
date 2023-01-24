@@ -1800,7 +1800,7 @@ def process_copernicus_ts(datestr,inpath,outpath,yaml_project_file,tracking_tag)
 
         print(l1file);
 
-        convert_copernicus_ts_l0a2l1(f,l1file,dBZ_offset,range_offset,data_version);
+        convert_copernicus_ts_l0a2l1(f,l1file,dBZ_offset,range_offset,data_version,yaml_project_file,tracking_tag);
 
     return
 
