@@ -1007,7 +1007,7 @@ def convert_copernicus_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_ver
 
 #    project = projects["tracking_tag"];
 
-    radar = "ncas-radar-camra-1";
+    radar = "ncas-radar-ka-band-1";
 
     for n in project["ncas_instruments"]:
         if radar in n:
