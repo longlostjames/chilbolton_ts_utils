@@ -1081,8 +1081,8 @@ def convert_copernicus_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_ver
 
     DSout.pulse_compression = "false";
 
-    DSout.ADC_bits_per_sample = np.int(12);
-    DSout.ADC_channels        = np.int(8);
+    DSout.ADC_bits_per_sample = int(12);
+    DSout.ADC_channels        = int(8);
 
     # ----------------
     # Scalar variables
