@@ -998,8 +998,10 @@ def convert_copernicus_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_ver
     with open(yaml_project_file, "r") as stream:
         try:
             projects = yaml.safe_load(stream)
+            print(projects)
         except yaml.YAMLError as exc:
             print(exc)
+            print("NOOOOO");
 
     for p in projects:
         if tracking_tag in p:
@@ -1047,19 +1049,19 @@ def convert_copernicus_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_ver
     DSout.product_version = "v{}".format(data_version);
     DSout.processing_level = "1" ;
 
-    DSout.licence = project["data_licence"];
-    DSout.acknowledgement = project["acknowledgement"];
-    DSout.platform = "Chilbolton Atmospheric Observatory" ;
-    DSout.platform_type = "stationary_platform" ;
+    DSout.licence = ncas_instrument["data_licence"];
+    DSout.acknowledgement = ncas_instrument["acknowledgement"];
+    DSout.platform = ncas_instrument["platform"]["location"];
+    DSout.platform_type = ncas_instrument["platform"]["type"];
     DSout.title = ncas_instrument["title"];
-    #DSout.title = "Time series from 35 GHz Copernicus radar collected for ESA WIVERN-2 campaign at Chilbolton Observatory";
-    DSout.creator_name = "Chris Walden" ;
-    DSout.creator_email = "chris.walden@ncas.ac.uk" ;
-    DSout.creator_url = "https://orcid.org/0000-0002-5718-466X" ;
-    DSout.institution = "National Centre for Atmospheric Science (NCAS)";
-    DSout.instrument_name = "ncas-radar-ka-band-1";
-    DSout.instrument_software = "radar-copernicus-iq-rec" ;
-    DSout.instrument_software_version = "0.1" ;
+    DSout.creator_name = ncas_instrument["data_creator"]["name"];
+    DSout.creator_email = ncas_instrument["data_creator"]["email"];
+    DSout.creator_url = ncas_instrument["data_creator"]["pid"];
+    DSout.institution = ncas_instrument["data_creator"]["institution"];
+    DSout.instrument_name = radar;
+
+    DSout.instrument_software = ncas_instrument["instrument_software"]["name"];
+    DSout.instrument_software_version = ncas_instrument["instrument_software"]["version"];
 
     DSout.references = "";
     DSout.source = "35GHz Copernicus Radar";
