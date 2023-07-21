@@ -2,13 +2,11 @@
 Overview
 ========
 
-WIVERN-2 Chilbolton Campaign Dataset
-------------------------------------
+Chilbolton IQ time-series data
+------------------------------
 
-This documentation describes the dataset collected using ground-based radars
-at Chilbolton Obervatory in the UK for the Doppler Wind Radar Science
-Performance Study (WIVERN-2), funded by the European Space Agency (ESA) under
-Contract no. 4000130864/20/NL/CT.
+This documentation describes time-series data collected using ground-based radars
+at Chilbolton Obervatory in the UK.
 
 Level 1 calibrated data in NetCDF-4 format (see :ref:`file-format`) are provided
 from the following three radars:

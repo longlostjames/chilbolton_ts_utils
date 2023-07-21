@@ -3,11 +3,11 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-================================
-wivern2-chilbolton documentation
-================================
+======================================
+Chilbolton radar time-series utilities
+======================================
 
-Documentation for the WIVERN-2 Chilbolton radar campaign.
+Documentation for Chilbolton radar IQ time-series data.
 
 
 .. toctree::
