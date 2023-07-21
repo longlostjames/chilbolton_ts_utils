@@ -3,7 +3,7 @@
 
 import sys, getopt
 
-import wivern_chilbolton_utils as wivern
+import chilbolton_ts_utils as chts
 import os, getpass, glob
 
 user = getpass.getuser()
@@ -28,9 +28,9 @@ matplotlib.use('Agg');
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 
 
-def load_wivern2_l1(file):
+def load_chilbolton_ts_l1(file):
 
-    """This routine loads a Level 1 WIVERN-2 I/Q time-series NetCDF file.
+    """This routine loads a Level 1 Chilbolton I/Q time-series NetCDF file.
     It then creates pulse-pair estimates of the Doppler velocity and radar
     equivalent reflectivity factor, annd stores the results in a Python
     dictionary for further use.  The velocity data may be folded and no attempt
@@ -102,9 +102,9 @@ def load_wivern2_l1(file):
     return data
 
 
-def create_wivern2_l1_plot(files,figpath,plotfile,dt_min,dt_max,time_alignment='post'):
+def create_chilbolton_ts_l1_plot(files,figpath,plotfile,dt_min,dt_max,time_alignment='post'):
 
-    """This routine accepts a list of Level 1 WIVERN-2 I/Q time-series files,
+    """This routine accepts a list of Level 1 Chilbolton I/Q time-series files,
     and generates a composite quicklook plot of radar equivalent reflectivity
     factor and Doppler velocity.
 
@@ -142,7 +142,7 @@ def create_wivern2_l1_plot(files,figpath,plotfile,dt_min,dt_max,time_alignment='
     print('{}/{} {}'.format(ifile,nfiles,infile));
 
 
-    DS0 = load_wivern2_l1(infile);
+    DS0 = load_chilbolton_ts_l1(infile);
 
     vf = DS0['folding_velocity'];
 
@@ -222,7 +222,7 @@ def create_wivern2_l1_plot(files,figpath,plotfile,dt_min,dt_max,time_alignment='
         DS.close();
 
         if ((DS_start_last >= dt_min) & (DS_start_first <= dt_max)) | ((DS_end_last >= dt_min) & (DS_end_first <= dt_max)):
-            DS0 = load_wivern2_l1(file);
+            DS0 = load_chilbolton_ts_l1(file);
 
             gate_width = DS0['range'][1]-DS0['range'][0];
             gate_starts = DS0['range'][:] - gate_width/2.0;
@@ -257,10 +257,10 @@ def create_wivern2_l1_plot(files,figpath,plotfile,dt_min,dt_max,time_alignment='
 
 basepath = '/gws/nopw/j04/ncas_obs/cao/processing/';
 
-camra_l1path = '/gws/nopw/j04/ncas_obs/cao/processing/ncas-radar-camra-1/campaign/wivern2/L1';
-copernicus_l1path = '/gws/nopw/j04/ncas_obs/cao/processing/ncas-radar-ka-band-1/campaign/wivern2/L1';
-galileo_l1path = '/gws/nopw/j04/ncas_obs/cao/processing/ncas-radar-w-band-1/campaign/wivern2/L1';
-figpath = '/home/users/cjwalden/jupyter/wivern2'
+camra_l1path = '/gws/nopw/j04/ncas_obs/cao/processing/ncas-radar-camra-1/campaign/testdev/L1';
+copernicus_l1path = '/gws/nopw/j04/ncas_obs/cao/processing/ncas-radar-ka-band-1/campaign/testdev/L1';
+galileo_l1path = '/gws/nopw/j04/ncas_obs/cao/processing/ncas-radar-w-band-1/campaign/testdev/L1';
+figpath = '/home/users/cjwalden/jupyter/testdev'
 
 def main(argv):
 
@@ -269,11 +269,11 @@ def main(argv):
    try:
       opts, args = getopt.getopt(argv,"hr:d:i:o:m:",["radar=","date=","inpath=","outpath="])
    except getopt.GetoptError:
-      print ('wivern2_quicklooks.py -r <radar> -d <date> -i <input_path> -o <output_path>')
+      print ('chilbolton_ts_quicklooks.py -r <radar> -d <date> -i <input_path> -o <output_path>')
       sys.exit(2)
    for opt, arg in opts:
       if opt == '-h':
-         print ('wivern2_quicklooks.py -r <radar> -d <date> -i <input_path> -o <output_path>')
+         print ('chilbolton_ts_quicklooks.py -r <radar> -d <date> -i <input_path> -o <output_path>')
          sys.exit()
       elif opt in ("-r", "--radar"):
          radar = arg
@@ -289,9 +289,9 @@ def main(argv):
 #   print ('Input path is ', inpath);
 #   print ('Output path is ', outpath)
 
-   inpath3 = os.path.join(basepath,'ncas-radar-camra-1','campaign','wivern2','L1',datestr);
-   inpath35 = os.path.join(basepath,'ncas-radar-ka-band-1','campaign','wivern2','L1',datestr);
-   inpath94 = os.path.join(basepath,'ncas-radar-w-band-1','campaign','wivern2','L1',datestr);
+   inpath3 = os.path.join(basepath,'ncas-radar-camra-1','campaign','testdev','L1',datestr);
+   inpath35 = os.path.join(basepath,'ncas-radar-ka-band-1','campaign','testdev','L1',datestr);
+   inpath94 = os.path.join(basepath,'ncas-radar-w-band-1','campaign','testdev','L1',datestr);
 
    if radar in ("camra", "CAMRa"):
        ncas_radar = "ncas-radar-camra-1"
@@ -313,7 +313,7 @@ def make_quicklooks_single(ncas_radar,datestr,basepath,outpath,time_alignment='p
 
     pattern = '*_fix-ts_l1_v1.0.nc'
 
-    inpath = os.path.join(basepath,ncas_radar,'campaign','wivern2','L1',datestr);
+    inpath = os.path.join(basepath,ncas_radar,'campaign','testdev','L1',datestr);
 
     l1dirs  = [];
 
@@ -343,8 +343,8 @@ def make_quicklooks_single(ncas_radar,datestr,basepath,outpath,time_alignment='p
         print("End = {}".format(dt_end));
 
         if len(l1files)>0:
-            plotfile  = os.path.join('{}_esa-wivern2_{}.png'.format(ncas_radar,datestr));
-            create_wivern2_l1_plot(l1files,outpath,plotfile,dt_start,dt_end,time_alignment);
+            plotfile  = os.path.join('{}_testdev_{}.png'.format(ncas_radar,datestr));
+            create_chilbolton_ts_l1_plot(l1files,outpath,plotfile,dt_start,dt_end,time_alignment);
     else:
         for d in l1dirs:
             print(d);
@@ -372,7 +372,7 @@ def make_quicklooks_single(ncas_radar,datestr,basepath,outpath,time_alignment='p
 
 
             if len(l1files)>0:
-                plotfile  = os.path.join('{}_esa-wivern2_{}_{}.png'.format(ncas_radar,datestr,event));
+                plotfile  = os.path.join('{}_testdev_{}_{}.png'.format(ncas_radar,datestr,event));
                 create_wivern2_l1_plot(l1files,outpath,plotfile,dt_start,dt_end,time_alignment);
 
 get_files = lambda path: (os.path.join(root, file) for root, dirs, files in os.walk(path) for file in files)
@@ -398,9 +398,9 @@ def make_quicklooks_multi(datestr,basepath,outpath,duration='max'):
     :type duration: str
     """
 
-    inpath3  = os.path.join(basepath,'ncas-radar-camra-1','campaign','wivern2','L1',datestr);
-    inpath35 = os.path.join(basepath,'ncas-radar-ka-band-1','campaign','wivern2','L1',datestr);
-    inpath94 = os.path.join(basepath,'ncas-radar-w-band-1','campaign','wivern2','L1',datestr);
+    inpath3  = os.path.join(basepath,'ncas-radar-camra-1','campaign','testdev','L1',datestr);
+    inpath35 = os.path.join(basepath,'ncas-radar-ka-band-1','campaign','testdev','L1',datestr);
+    inpath94 = os.path.join(basepath,'ncas-radar-w-band-1','campaign','testdev','L1',datestr);
 
     pattern = '*_fix-ts_l1_v1.0.nc'
 
@@ -496,13 +496,13 @@ def make_quicklooks_multi(datestr,basepath,outpath,duration='max'):
 
 
         if len(l1files3)>0:
-            plotfile3  = os.path.join('ncas-radar-camra-1_esa-wivern2_{}.png'.format(datestr));
+            plotfile3  = os.path.join('ncas-radar-camra-1_testdev_{}.png'.format(datestr));
             create_wivern2_l1_plot(l1files3,outpath,plotfile3,dt_start,dt_end);
         if len(l1files35)>0:
-            plotfile35 = os.path.join('ncas-radar-ka-band-1_esa-wivern2_{}.png'.format(datestr));
+            plotfile35 = os.path.join('ncas-radar-ka-band-1_testdev_{}.png'.format(datestr));
             create_wivern2_l1_plot(l1files35,outpath,plotfile35,dt_start,dt_end,time_alignment='pre');
         if len(l1files94)>0:
-            plotfile94 = os.path.join('ncas-radar-w-band-1_esa-wivern2_{}.png'.format(datestr));
+            plotfile94 = os.path.join('ncas-radar-w-band-1_testdev_{}.png'.format(datestr));
             create_wivern2_l1_plot(l1files94,outpath,plotfile94,dt_start,dt_end);
     else:
         for d in l1dirs3:
@@ -578,13 +578,13 @@ def make_quicklooks_multi(datestr,basepath,outpath,duration='max'):
 
 
             if len(l1files3)>0:
-                plotfile3  = os.path.join('ncas-radar-camra-1_esa-wivern2_{}_{}.png'.format(datestr,event));
+                plotfile3  = os.path.join('ncas-radar-camra-1_testdev_{}_{}.png'.format(datestr,event));
                 create_wivern2_l1_plot(l1files3,outpath,plotfile3,dt_start,dt_end);
             if len(l1files35)>0:
-                plotfile35 = os.path.join('ncas-radar-ka-band-1_esa-wivern2_{}_{}.png'.format(datestr,event));
+                plotfile35 = os.path.join('ncas-radar-ka-band-1_testdev_{}_{}.png'.format(datestr,event));
                 create_wivern2_l1_plot(l1files35,outpath,plotfile35,dt_start,dt_end,time_alignment='post');
             if len(l1files94)>0:
-                plotfile94 = os.path.join('ncas-radar-w-band-1_esa-wivern2_{}_{}.png'.format(datestr,event));
+                plotfile94 = os.path.join('ncas-radar-w-band-1_testdev_{}_{}.png'.format(datestr,event));
                 create_wivern2_l1_plot(l1files94,outpath,plotfile94,dt_start,dt_end);
 
 
