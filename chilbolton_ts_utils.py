@@ -1317,17 +1317,16 @@ def convert_copernicus_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_ver
 
     return
 
-def convert_galileo_ts_l0b2l1(infile,outfile,dBZ_offset,range_offset,data_version):
+def convert_galileo_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_version):
 
-    """This routine converts raw (Level 0b) time series data from the Chilbolton 94GHz Cloud Radar (Galileo) to Level 1 data.
-    Level 0b data have been generated from as-recorded Level 0a data by splitting the files along the time dimension and converting to NetCDF4.
+    """This routine converts raw (Level 0a) time series data from the Chilbolton 94GHz Cloud Radar (Galileo) to Level 1 data.
     Processing by this routine involves removing redundant dimensions, and removing bias from the ADC samples of the received I and Q.
-    Metadata are added specific to the WIVERN-2 project ground-based observations collected in 2020-2021.
+    Metadata are added specific to the project.
 
-    :param infile: Full path of NetCDF Level 0b data file, e.g. `<path-to-file>/radar-galileo_<YYYYddmmHHMMSS>-<YYYYddmmHHMMSS>_fix-ts.nc4`
+    :param infile: Full path of NetCDF Level 0a data file, e.g. `<path-to-file>/radar-galileo_<YYYYddmmHHMMSS>-<YYYYddmmHHMMSS>_fix-ts.nc`
     :type infile: str
 
-    :param outfile: Full path of NetCDF Level 0b output file, e.g. `<path-to-file>/ncas-radar-w-band-1_cao_20201210-212823_fix-ts_l1_v1.0.nc`
+    :param outfile: Full path of NetCDF Level 1 output file, e.g. `<path-to-file>/ncas-radar-w-band-1_cao_20201210-212823_fix-ts_l1_v1.0.nc`
     :type outfile: str
 
     :param dBZ_offset: dB calibration offset to apply to reflectivity.  This is converted to linear units and I and Q values are multiplied by the square root of this value.
@@ -1339,6 +1338,26 @@ def convert_galileo_ts_l0b2l1(infile,outfile,dBZ_offset,range_offset,data_versio
     :param data_version: Version of data product in the format `N.m`, where `N` denotes the major verion and `m` a minor revision.
     :type data_version: str
     """
+
+ with open(yaml_project_file, "r") as stream:
+        try:
+            projects = yaml.safe_load(stream)
+        except yaml.YAMLError as exc:
+            print(exc)
+
+    for p in projects:
+        if tracking_tag in p:
+            project = p[tracking_tag];
+
+#    project = projects["tracking_tag"];
+
+    radar = "ncas-radar-w-band-1";
+
+    for n in project["ncas_instruments"]:
+        if radar in n:
+            ncas_instrument = n[radar];
+
+    print(ncas_instrument);
 
     # -----------------------------------------------------
     # Read NetCDF spectra file with embedded IQ time series
@@ -1356,36 +1375,36 @@ def convert_galileo_ts_l0b2l1(infile,outfile,dBZ_offset,range_offset,data_versio
     DSout = nc4.Dataset(outfile,mode='w',format='NETCDF4')
     print(outfile)
 
+
     # ------------------------
     # Set up global attributes
     # ------------------------
     DSout.product_version = "v{}".format(data_version);
     DSout.processing_level = "1" ;
 
-    DSout.licence = "This dataset is released for use under a Creative Commons Attribution 4.0 International (CC-BY 4.0) license (see https://creativecommons.org/licenses/by/4.0/ for terms and conditions)."
-#    DSout.licence = "Data usage licence - UK Open Government Licence agreement: \n http://www.nationalarchives.gov.uk/doc/open-government-licence" ;
-    DSout.acknowledgement = "This dataset was developed as part of the activity \"Doppler Wind Radar Science Performance Study (WIVERN-2)\", funded by the European Space Agency under Contract no. 4000130864/20/NL/CT.  Users should acknowledge UK Research and Innovation as the data provider (in partnership with the National Centre for Atmospheric Science)." ;
-#    DSout.acknowledgement = "Acknowledgement is required of UK Research and Innovation as the data provider (in partnership with the National Centre for Atmospheric Science) whenever and wherever these data are used." ;
+    DSout.licence = project["data_licence"];
+    DSout.acknowledgement = project["acknowledgement"];
     DSout.platform = "Chilbolton Atmospheric Observatory" ;
     DSout.platform_type = "stationary_platform" ;
-    DSout.title = "Time series from 94 GHz Galileo radar collected for ESA WIVERN-2 campaign at Chilbolton Observatory";
+    DSout.title = ncas_instrument["title"];
     DSout.creator_name = "Chris Walden" ;
     DSout.creator_email = "chris.walden@ncas.ac.uk" ;
     DSout.creator_url = "https://orcid.org/0000-0002-5718-466X" ;
     DSout.institution = "National Centre for Atmospheric Science (NCAS)";
     DSout.instrument_name = "ncas-radar-w-band-1";
-    DSout.instrument_software = "radar-galileo-rec" ;
-    DSout.instrument_software_version = "" ;
+    DSout.instrument_software = "radar-galileo-iq-rec-dualpol" ;
+    DSout.instrument_software_version = "0.3" ;
 
     DSout.references = "";
     DSout.source = "94GHz Galileo Radar";
     DSout.comment = "";
-    DSout.project = "WIVERN-2 Doppler Wind Radar Science Performance Study";
-    DSout.project_principal_investigator = "Anthony Illingworth";
-    DSout.project_principal_investigator_email = "a.j.illingworth@reading.ac.uk";
-    DSout.project_principal_investigator_url = "https://orcid.org/0000-0002-5774-8410";
+    DSout.project = project["project_name"];
+    DSout.project_principal_investigator = project["principal_investigator"]["name"];
+    DSout.project_principal_investigator_email = project["principal_investigator"]["email"];
+    DSout.project_principal_investigator_url = project["principal_investigator"]["pid"];
+   
 
-    DSout.processing_software_url = "https://github.com/longlostjames/wivern_chilbolton_utils.git";
+    DSout.processing_software_url = "https://github.com/longlostjames/chilbolton_ts_utils.git";
     DSout.processing_software_version = "1.0";
 
     DSout.scantype = "vertical_pointing";
@@ -1398,6 +1417,50 @@ def convert_galileo_ts_l0b2l1(infile,outfile,dBZ_offset,range_offset,data_versio
 
     DSout.ADC_bits_per_sample = int(12);
     DSout.ADC_channels        = int(8);
+
+
+    # ------------------------
+    # Set up global attributes
+    # ------------------------
+    DSout.product_version = "v{}".format(data_version);
+    DSout.processing_level = "1" ;
+
+    #DSout.licence = "This dataset is released for use under a Creative Commons Attribution 4.0 International (CC-BY 4.0) license (see https://creativecommons.org/licenses/by/4.0/ for terms and conditions)."
+    #DSout.licence = "Data usage licence - UK Open Government Licence agreement: \n http://www.nationalarchives.gov.uk/doc/open-government-licence" ;
+    #DSout.acknowledgement = "This dataset was developed as part of the activity \"Doppler Wind Radar Science Performance Study (WIVERN-2)\", funded by the European Space Agency under Contract no. 4000130864/20/NL/CT.  Users should acknowledge UK Research and Innovation as the data provider (in partnership with the National Centre for Atmospheric Science)." ;
+    #DSout.acknowledgement = "Acknowledgement is required of UK Research and Innovation as the data provider (in partnership with the National Centre for Atmospheric Science) whenever and wherever these data are used." ;
+    #DSout.platform = "Chilbolton Atmospheric Observatory" ;
+    #DSout.platform_type = "stationary_platform" ;
+    #DSout.title = "Time series from 94 GHz Galileo radar collected for ESA WIVERN-2 campaign at Chilbolton Observatory";
+    #DSout.creator_name = "Chris Walden" ;
+    #DSout.creator_email = "chris.walden@ncas.ac.uk" ;
+    #DSout.creator_url = "https://orcid.org/0000-0002-5718-466X" ;
+    #DSout.institution = "National Centre for Atmospheric Science (NCAS)";
+    #DSout.instrument_name = "ncas-radar-w-band-1";
+    #DSout.instrument_software = "radar-galileo-rec" ;
+    #DSout.instrument_software_version = "" ;
+
+    #DSout.references = "";
+    #DSout.source = "94GHz Galileo Radar";
+    #DSout.comment = "";
+    #DSout.project = "WIVERN-2 Doppler Wind Radar Science Performance Study";
+    #DSout.project_principal_investigator = "Anthony Illingworth";
+    #DSout.project_principal_investigator_email = "a.j.illingworth@reading.ac.uk";
+    #DSout.project_principal_investigator_url = "https://orcid.org/0000-0002-5774-8410";
+
+    #DSout.processing_software_url = "https://github.com/longlostjames/wivern_chilbolton_utils.git";
+    #DSout.processing_software_version = "1.0";
+
+    #DSout.scantype = "vertical_pointing";
+
+    #DSout.time_coverage_start = datetime.strftime(dt_start,'%Y-%m-%dT%H:%M:%SZ');
+    #DSout.time_coverage_end = datetime.strftime(dt_end,'%Y-%m-%dT%H:%M:%SZ');
+    #DSout.geospatial_bounds = "51.1447N -1.4384E";
+
+    #DSout.pulse_compression = "false";
+
+    #DSout.ADC_bits_per_sample = int(12);
+    #DSout.ADC_channels        = int(8);
 
     # ----------------
     # Scalar variables
@@ -1828,9 +1891,9 @@ def process_copernicus_ts(datestr,inpath,outpath,yaml_project_file,tracking_tag)
 
     return
 
-def process_galileo_ts(datestr,inpath,outpath):
+def process_galileo_ts(datestr,inpath,outpath,yaml_project_file,tracking_tag):
 
-    pattern = '*{}*_fix-fft-raw.nc4'.format(datestr);
+    pattern = '*{}*_fix-fft-raw.nc'.format(datestr);
 
     print(datestr);
     print(inpath);
@@ -1842,8 +1905,6 @@ def process_galileo_ts(datestr,inpath,outpath):
     for root,dirs,files in os.walk(datepath):
         tsfiles += [os.path.join(root,f) for f in fnmatch.filter(files, pattern)];
         tsdirs += dirs;
-
-    print(tsfiles);
 
     data_version = "1.0";
 
@@ -1881,6 +1942,6 @@ def process_galileo_ts(datestr,inpath,outpath):
 
         print(l1file);
 
-        convert_galileo_ts_l0b2l1(f,l1file,dBZ_offset,range_offset,data_version);
+        convert_galileo_ts_l0a2l1(f,l1file,dBZ_offset,range_offset,data_version,yaml_project_file,tracking_tag);
 
     return
