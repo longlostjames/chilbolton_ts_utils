@@ -1339,7 +1339,7 @@ def convert_galileo_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_versio
     :type data_version: str
     """
 
- with open(yaml_project_file, "r") as stream:
+    with open(yaml_project_file, "r") as stream:
         try:
             projects = yaml.safe_load(stream)
         except yaml.YAMLError as exc:
