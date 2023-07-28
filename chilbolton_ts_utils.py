@@ -1666,11 +1666,11 @@ def convert_galileo_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_versio
     range_offset = range_m[0]-varin[0];
     varout = DSout.createVariable('range',varin.datatype,('range'));
     varout.long_name = 'distance from the antenna to the middle of each range gate';
-    varout.range_offset_applied = np.float32(range_offset);
+    varout.range_offset_applied = np.float32(range_offset)-varin.range_offset;
     varout.units = varin.units;
     #varout[:]=varin[:]+range_offset-varin.range_offset;
     varout[:] = range_m;
-    
+
     # --------------------------
     # Antenna pointing variables
     # --------------------------
