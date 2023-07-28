@@ -1924,7 +1924,7 @@ def process_copernicus_ts(datestr,inpath,outpath,yaml_project_file,tracking_tag)
 
     return
 
-def process_galileo_ts(datestr,inpath,outpath,yaml_project_file,tracking_tag):
+def process_galileo_ts(datestr,inpath,outpath,yaml_project_file,yaml_instrument_file,tracking_tag):
 
 #    pattern = '*{}*_fix-fft-raw.nc'.format(datestr);
     pattern = '*_fix-ts.nc';
@@ -1977,6 +1977,6 @@ def process_galileo_ts(datestr,inpath,outpath,yaml_project_file,tracking_tag):
 
         print(l1file);
 
-        convert_galileo_ts_l0a2l1(f,l1file,dBZ_offset,range_offset,data_version,yaml_project_file,tracking_tag);
+        convert_galileo_ts_l0a2l1(f,l1file,dBZ_offset,range_offset,data_version,yaml_project_file,yaml_instrument_file,tracking_tag);
 
     return
