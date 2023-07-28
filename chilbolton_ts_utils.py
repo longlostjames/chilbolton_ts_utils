@@ -230,7 +230,7 @@ def convert_camra_ts_l0a2l0b(infile,outfile,yaml_project_file,tracking_tag):
     varin = DSin['height'];
     varout = DSout.createVariable('altitude',varin.datatype);
     varout.standard_name = 'altitude';
-    varout.long_name = 'altitude of the elevation axis above the geoid (WGS84)';
+    varout.long_name = 'altitude of the elevation axis above the ellipsoid (WGS84)';
     varout.units = 'm';
     varout[:]=146.7;
 
@@ -1104,7 +1104,7 @@ def convert_copernicus_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_ver
 
     varout = DSout.createVariable('altitude','f4');
     varout.standard_name = 'altitude';
-    varout.long_name = 'altitude of the antenna above the geoid (WGS84)';
+    varout.long_name = 'altitude of the antenna above the ellipsoid (WGS84)';
     varout.units = 'm';
 
     varout = DSout.createVariable('altitude_agl','f4');
@@ -1521,7 +1521,7 @@ def convert_galileo_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_versio
 
     varout = DSout.createVariable('altitude','f4');
     varout.standard_name = 'altitude';
-    varout.long_name = 'altitude of the antenna above the geoid (WGS84)';
+    varout.long_name = 'altitude of the antenna above the ellipsoid (WGS84)';
     varout.units = 'm';
     varout[:] = 131.6;
 
