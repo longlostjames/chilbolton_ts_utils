@@ -1687,19 +1687,15 @@ def convert_galileo_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_versio
     # Input Level 0b file has I and Q dependent on the following dimensions (time,spectra,pulses,sample).
     # We rearrange this into a three-dimensional array dependent on (time,pulse,range);
 
-    Ico_in = DSin['IPF_HH'][:,:,:,:];
-    Qco_in = DSin['QPF_HH'][:,:,:,:];
+    Ico_in = DSin['IH'][:,:,:];
+    Qco_in = DSin['QH'][:,:,:];
 
-    Icx_in = DSin['IPF_HV'][:,:,:,:];
-    Qcx_in = DSin['QPF_HV'][:,:,:,:];
+    Icx_in = DSin['IV'][:,:,:];
+    Qcx_in = DSin['QV'][:,:,:];
 
     nray     = Ico_in.shape[0];
-    nspectra = Ico_in.shape[1];
-    npulse   = Ico_in.shape[2];
-    ngate    = Ico_in.shape[3];
-
-    Ico = Ico_in.reshape(nray,npulse*nspectra,ngate);
-    Qco = Qco_in.reshape(nray,npulse*nspectra,ngate);
+    npulse   = Ico_in.shape[1];
+    ngate    = Ico_in.shape[2];
 
     Ico_mean = np.mean(Ico,axis=1);
     Qco_mean = np.mean(Qco,axis=1);
@@ -1711,9 +1707,6 @@ def convert_galileo_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_versio
 
     Ico=Ico*np.sqrt(10**(Zcal/10.0));
     Qco=Qco*np.sqrt(10**(Zcal/10.0));
-
-    Icx = Icx_in.reshape(nray,npulse*nspectra,ngate);
-    Qcx = Qcx_in.reshape(nray,npulse*nspectra,ngate);
 
     Icx_mean = np.mean(Icx,axis=1);
     Qcx_mean = np.mean(Qcx,axis=1);
