@@ -1643,6 +1643,7 @@ def convert_galileo_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_versio
     #DSout.createDimension('pulse', len(fft_bin_dim)*len(spectra_number_dim));
 
     the_dim = DSin.dimensions['range'];
+    nrange = len(the_dim);
     DSout.createDimension('range', len(the_dim) if not the_dim.isunlimited() else None)
     the_dim = DSin.dimensions['pulses'];
     DSout.createDimension('pulse', len(the_dim) if not the_dim.isunlimited() else None)
@@ -1660,6 +1661,9 @@ def convert_galileo_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_versio
     varout[:]=varin[:];
 
     varin = DSin['range'];
+
+    range_m = (np.arange(nrange)-5.5)*299792458/DSin['clock'][0];
+    range_offset = range_m[0]-varin[0];
     varout = DSout.createVariable('range',varin.datatype,('range'));
     varout.long_name = 'distance from the antenna to the middle of each range gate';
     varout.range_offset_applied = np.float32(range_offset);
