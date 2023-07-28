@@ -1319,7 +1319,7 @@ def convert_copernicus_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_ver
 
     return
 
-def convert_galileo_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_version,yaml_project_file,tracking_tag):
+def convert_galileo_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_version,yaml_project_file,yaml_instrument_file,tracking_tag):
 
     """This routine converts raw (Level 0a) time series data from the Chilbolton 94GHz Cloud Radar (Galileo) to Level 1 data.
     Processing by this routine involves removing redundant dimensions, and removing bias from the ADC samples of the received I and Q.
@@ -1341,6 +1341,26 @@ def convert_galileo_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_versio
     :type data_version: str
     """
 
+    data_version = '1.0';
+
+    instrument_tagname = "ncas-radar-w-band-1"
+
+    # ---------------------------------------
+    # Read metadata from YAML instrument file
+    # ---------------------------------------  
+    with open(yaml_instrument_file, "r") as stream:
+        try:
+            instruments = yaml.safe_load(stream)
+        except yaml.YAMLError as exc:
+            print(exc)
+
+    for elem in instruments:
+        if instrument_tagname in elem:
+            instrument = elem[instrument_tagname];
+
+    # -------------------------------------
+    # Read metadata from YAML projects file
+    # -------------------------------------  
     with open(yaml_project_file, "r") as stream:
         try:
             projects = yaml.safe_load(stream)
@@ -1348,22 +1368,24 @@ def convert_galileo_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_versio
             print(exc)
 
     for p in projects:
-        print(p);
         if tracking_tag in p:
             project = p[tracking_tag];
 
-#    project = projects["tracking_tag"];
+    radar_name = instrument["instrument_name"].lower();
 
-    radar = "ncas-radar-w-band-1";
+    print(radar_name);
 
     for n in project["ncas-instruments"]:
-        if radar in n:
-            ncas_instrument = n[radar];
+        if radar_name in n:
+            project_instrument = n[radar_name];
 
-    print(ncas_instrument);
+    print(project_instrument);
+
+    location = project_instrument['platform']['location'].lower();
+
 
     # -----------------------------------------------------
-    # Read NetCDF spectra file with embedded IQ time series
+    # Read NetCDF IQ time series file
     # -----------------------------------------------------
     DSin = nc4.Dataset(infile);
 
@@ -1378,35 +1400,43 @@ def convert_galileo_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_versio
     DSout = nc4.Dataset(outfile,mode='w',format='NETCDF4')
     print(outfile)
 
-
     # ------------------------
     # Set up global attributes
     # ------------------------
-    DSout.product_version = "v{}".format(data_version);
+    DSout.product_version = "v{}".format(data_version) ;
     DSout.processing_level = "1" ;
 
-    DSout.licence = project["data_licence"];
-    DSout.acknowledgement = project["acknowledgement"];
-    DSout.platform = "Chilbolton Atmospheric Observatory" ;
-    DSout.platform_type = "stationary_platform" ;
-    DSout.title = ncas_instrument["title"];
-    DSout.creator_name = "Chris Walden" ;
-    DSout.creator_email = "chris.walden@ncas.ac.uk" ;
-    DSout.creator_url = "https://orcid.org/0000-0002-5718-466X" ;
-    DSout.institution = "National Centre for Atmospheric Science (NCAS)";
-    DSout.instrument_name = "ncas-radar-w-band-1";
-    DSout.instrument_software = "radar-galileo-iq-rec-dualpol" ;
-    DSout.instrument_software_version = "0.3" ;
+    DSout.licence = project_instrument["data_licence"];
+    DSout.acknowledgement = project_instrument["acknowledgement"];
 
-    DSout.references = "";
-    DSout.source = "94GHz Galileo Radar";
-    DSout.comment = "";
+    DSout.platform = project_instrument["platform"]["location"];
+    DSout.platform_type = project_instrument["platform"]["type"];
+
+    DSout.title = project_instrument["title"];
+
+    DSout.creator_name = project_instrument["data_creator"]["name"];
+    DSout.creator_email = project_instrument["data_creator"]["email"];
+    DSout.creator_url = project_instrument["data_creator"]["pid"];
+    DSout.institution = project_instrument["data_creator"]["institution"];
+    DSout.instrument_name = instrument["instrument_name"];
+    DSout.instrument_software = project_instrument["instrument_software"]["name"];
+    DSout.instrument_software_version = project_instrument["instrument_software"]["version"];
+    #    DSout.instrument_software = "radar-galileo-iq-rec-dualpol" ;
+    #    DSout.instrument_software_version = "0.3" ;
+    DSout.instrument_manufacturer = instrument['instrument_manufacturer'];
+    DSout.instrument_model = instrument['instrument_model'];
+    DSout.instrument_serial_number = instrument['instrument_serial_number'];
+    DSout.instrument_pid = instrument['instrument_pid']
+
+    DSout.references = instrument['references'];
     DSout.project = project["project_name"];
     DSout.project_principal_investigator = project["principal_investigator"]["name"];
     DSout.project_principal_investigator_email = project["principal_investigator"]["email"];
     DSout.project_principal_investigator_url = project["principal_investigator"]["pid"];
-   
 
+    #DSout.source = "94GHz Galileo Radar";
+    #DSout.comment = "";
+   
     DSout.processing_software_url = "https://github.com/longlostjames/chilbolton_ts_utils.git";
     DSout.processing_software_version = "1.0";
 
