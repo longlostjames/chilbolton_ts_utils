@@ -1389,7 +1389,13 @@ def convert_galileo_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_versio
     # -----------------------------------------------------
     DSin = nc4.Dataset(infile);
 
-    dt_start = cftime.num2pydate(DSin['time'][0],DSin['time'].units)
+    timesteps = DSin['time'][2]-DSin[1];
+
+    if DSin['time'][0] != DSin['time']._FillValue:
+        dt_start = cftime.num2pydate(DSin['time'][0],DSin['time'].units)
+    else:
+        dt_start = cftime.num2pydate(DSin['time'][1]-timesteps,DSin['time'].units)
+        
     dt_end   = cftime.num2pydate(DSin['time'][-1],DSin['time'].units)
 
     # -----------------------------
