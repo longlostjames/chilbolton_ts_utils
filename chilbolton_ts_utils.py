@@ -1638,12 +1638,14 @@ def convert_galileo_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_versio
     the_dim = DSin.dimensions['time'];
     DSout.createDimension('time', len(the_dim) if not the_dim.isunlimited() else None)
 
-    fft_bin_dim = DSin.dimensions['fft_bin_dim'];
-    spectra_number_dim = DSin.dimensions['spectra_number_dim'];
-    DSout.createDimension('pulse', len(fft_bin_dim)*len(spectra_number_dim));
+    #fft_bin_dim = DSin.dimensions['fft_bin_dim'];
+    #spectra_number_dim = DSin.dimensions['spectra_number_dim'];
+    #DSout.createDimension('pulse', len(fft_bin_dim)*len(spectra_number_dim));
 
     the_dim = DSin.dimensions['range'];
     DSout.createDimension('range', len(the_dim) if not the_dim.isunlimited() else None)
+    the_dim = DSin.dimensions['pulses'];
+    DSout.createDimension('pulse', len(the_dim) if not the_dim.isunlimited() else None)
 
     print(DSout.dimensions['pulse']);
 
