@@ -1687,15 +1687,15 @@ def convert_galileo_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_versio
     # Input Level 0b file has I and Q dependent on the following dimensions (time,spectra,pulses,sample).
     # We rearrange this into a three-dimensional array dependent on (time,pulse,range);
 
-    Ico_in = DSin['IH'][:,:,:];
-    Qco_in = DSin['QH'][:,:,:];
+    Ico = DSin['IH'][:,:,:];
+    Qco = DSin['QH'][:,:,:];
 
-    Icx_in = DSin['IV'][:,:,:];
-    Qcx_in = DSin['QV'][:,:,:];
+    Icx = DSin['IV'][:,:,:];
+    Qcx = DSin['QV'][:,:,:];
 
-    nray     = Ico_in.shape[0];
-    npulse   = Ico_in.shape[1];
-    ngate    = Ico_in.shape[2];
+    nray     = Ico.shape[0];
+    npulse   = Ico.shape[1];
+    ngate    = Ico.shape[2];
 
     Ico_mean = np.mean(Ico,axis=1);
     Qco_mean = np.mean(Qco,axis=1);
