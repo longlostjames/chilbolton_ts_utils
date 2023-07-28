@@ -152,7 +152,7 @@ def convert_camra_ts_l0a2l0b(infile,outfile,yaml_project_file,tracking_tag):
 
     radar = "ncas-radar-camra-1";
 
-    for n in project["ncas_instruments"]:
+    for n in project["ncas-instruments"]:
         if radar in n:
             ncas_instrument = n[radar];
 
@@ -1011,7 +1011,7 @@ def convert_copernicus_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_ver
 
     radar = "ncas-radar-ka-band-1";
 
-    for n in project["ncas_instruments"]:
+    for n in project["ncas-instruments"]:
         if radar in n:
             ncas_instrument = n[radar];
 
@@ -1319,7 +1319,7 @@ def convert_copernicus_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_ver
 
     return
 
-def convert_galileo_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_version):
+def convert_galileo_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_version,yaml_project_file,tracking_tag):
 
     """This routine converts raw (Level 0a) time series data from the Chilbolton 94GHz Cloud Radar (Galileo) to Level 1 data.
     Processing by this routine involves removing redundant dimensions, and removing bias from the ADC samples of the received I and Q.
@@ -1348,6 +1348,7 @@ def convert_galileo_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_versio
             print(exc)
 
     for p in projects:
+        print(p);
         if tracking_tag in p:
             project = p[tracking_tag];
 
@@ -1355,7 +1356,7 @@ def convert_galileo_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_versio
 
     radar = "ncas-radar-w-band-1";
 
-    for n in project["ncas_instruments"]:
+    for n in project["ncas-instruments"]:
         if radar in n:
             ncas_instrument = n[radar];
 
@@ -1895,7 +1896,8 @@ def process_copernicus_ts(datestr,inpath,outpath,yaml_project_file,tracking_tag)
 
 def process_galileo_ts(datestr,inpath,outpath,yaml_project_file,tracking_tag):
 
-    pattern = '*{}*_fix-fft-raw.nc'.format(datestr);
+#    pattern = '*{}*_fix-fft-raw.nc'.format(datestr);
+    pattern = '*_fix-ts.nc';
 
     print(datestr);
     print(inpath);
@@ -1925,15 +1927,16 @@ def process_galileo_ts(datestr,inpath,outpath,yaml_project_file,tracking_tag):
     for f in tsfiles:
         outfile_splits = os.path.split(f);
 
-        outfile_string = outfile_splits[1].replace('.nc4','_l1.nc');
+#        outfile_string = outfile_splits[1].replace('.nc4','_l1.nc');
+        outfile_string = outfile_splits[1].replace('.nc','_l1.nc');
         splits = outfile_string.split('_');
         instrument_name =splits[0].replace('radar-galileo','ncas-radar-w-band-1');
         platform = 'cao';
         datestr0 = splits[1].split('-')[0];
-        datestr = datestr0[0:8];
+        datestr1 = datestr0[0:8];
         timestr = datestr0[8:];
         level = splits[3].split('.')[0];
-        l1file = '{}_{}_{}-{}_{}_{}_v{}.nc'.format(instrument_name,platform,datestr,timestr,'fix-ts',level,data_version)
+        l1file = '{}_{}_{}-{}_{}_{}_v{}.nc'.format(instrument_name,platform,datestr1,timestr,'fix-ts',level,data_version)
 
         event = outfile_splits[0].split('/')[-1];
 
