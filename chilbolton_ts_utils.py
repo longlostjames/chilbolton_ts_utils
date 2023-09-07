@@ -1724,6 +1724,8 @@ def convert_galileo_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_versio
     IH_mean = np.mean(IH,axis=1);
     QH_mean = np.mean(QH,axis=1);
 
+    print(IH_mean);
+    
     IH[:,:,:] = IH[:,:,:]-IH_mean[:,None,:];
     QH[:,:,:] = QH[:,:,:]-QH_mean[:,None,:];
 
