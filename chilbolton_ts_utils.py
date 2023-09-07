@@ -1699,7 +1699,7 @@ def convert_galileo_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_versio
     txpol[VnotH<200] = 1;
     txpol[VnotH>3500] = 0;
 
-    varout = DSout.createVariable('txpol','i4',('time','pulse'))
+    varout = DSout.createVariable('txpol','i4',('time','pulse'));
     varout.long_name = 'Polarization of leading pulse';
     varout.units = '1';
     varout.comment = '1 = H, 0 = V'
@@ -1712,6 +1712,7 @@ def convert_galileo_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_versio
     IH = DSin['IH'][firstray:,:,:];
     QH = DSin['QH'][firstray:,:,:];
 
+    print(IH);
     IV = DSin['IV'][firstray:,:,:];
     QV = DSin['QV'][firstray:,:,:];
 
@@ -1725,7 +1726,7 @@ def convert_galileo_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_versio
     QH_mean = np.mean(QH,axis=1);
 
     print(IH_mean);
-    
+
     IH[:,:,:] = IH[:,:,:]-IH_mean[:,None,:];
     QH[:,:,:] = QH[:,:,:]-QH_mean[:,None,:];
 
