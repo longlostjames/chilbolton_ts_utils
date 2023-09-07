@@ -1718,6 +1718,8 @@ def convert_galileo_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_versio
     npulse   = IH.shape[1];
     ngate    = IH.shape[2];
 
+    print(nray,npulse,ngate);
+
     IH_mean = np.mean(IH,axis=1);
     QH_mean = np.mean(QH,axis=1);
 
