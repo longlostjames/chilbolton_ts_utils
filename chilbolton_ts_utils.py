@@ -1704,16 +1704,19 @@ def convert_galileo_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_versio
     varout.units = '1';
     varout.comment = '1 = H, 0 = V'
 
-    print('txpol=');
     varout[:] = txpol; 
-    print(txpol);
 
+    IH0 = DSin['IH'][firstray:,:,:];
+    QH0 = DSin['QH'][firstray:,:,:];
 
-    IH = DSin['IH'][firstray:,:,:].astype(float);
-    QH = DSin['QH'][firstray:,:,:].astype(float);
+    IH = IH0.astype(float);
+    QX = QH0.astype(float)
 
-    IV = DSin['IV'][firstray:,:,:].astype(float);
-    QV = DSin['QV'][firstray:,:,:].astype(float);
+    IV0 = DSin['IV'][firstray:,:,:];
+    QV0 = DSin['QV'][firstray:,:,:];
+
+    IV = IV0.astype(float);
+    QV = QV0.astype(float);
 
     nray     = IH.shape[0];
     npulse   = IH.shape[1];
