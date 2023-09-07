@@ -1345,6 +1345,8 @@ def convert_galileo_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_versio
 
     instrument_tagname = "ncas-radar-w-band-1"
 
+    firstray = 1;
+
     # ---------------------------------------
     # Read metadata from YAML instrument file
     # ---------------------------------------  
@@ -1658,7 +1660,7 @@ def convert_galileo_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_versio
     varout.standard_name = 'time';
     varout.long_name = 'time at the start of each recorded ray';
     varout.units = varin.units;
-    varout[:]=varin[:];
+    varout[:]=varin[firstray:];
 
     varin = DSin['range'];
 
@@ -1692,43 +1694,55 @@ def convert_galileo_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_versio
     # Input Level 0b file has I and Q dependent on the following dimensions (time,spectra,pulses,sample).
     # We rearrange this into a three-dimensional array dependent on (time,pulse,range);
 
-    Ico = DSin['IH'][:,:,:];
-    Qco = DSin['QH'][:,:,:];
+    VnotH = DS['VnotH'][firstray:,:,10];
+    txpol = VnotH.astype(int);
+    txpol[VnotH<200] = 1;
+    txpol[VnotH>3500] = 0;
 
-    Icx = DSin['IV'][:,:,:];
-    Qcx = DSin['QV'][:,:,:];
+    varout = DSout.createVariable('txpol','i4')
+    varout.long_name = 'Polarization of leading pulse';
+    varout.units = '1';
+    varout.comment = '1 = H, 0 = V'
+    varout[:] = txpol; 
 
-    nray     = Ico.shape[0];
-    npulse   = Ico.shape[1];
-    ngate    = Ico.shape[2];
 
-    Ico_mean = np.mean(Ico,axis=1);
-    Qco_mean = np.mean(Qco,axis=1);
+    IH = DSin['IH'][firstray:,:,:];
+    QH = DSin['QH'][firstray:,:,:];
 
-    Ico[:,:,:] = Ico[:,:,:]-Ico_mean[:,None,:];
-    Qco[:,:,:] = Qco[:,:,:]-Qco_mean[:,None,:];
+    IV = DSin['IV'][firstray:,:,:];
+    QV = DSin['QV'][firstray:,:,:];
+
+    nray     = IH.shape[0];
+    npulse   = IH.shape[1];
+    ngate    = IH.shape[2];
+
+    IH_mean = np.mean(IH,axis=1);
+    QH_mean = np.mean(QH,axis=1);
+
+    IH[:,:,:] = IH[:,:,:]-IH_mean[:,None,:];
+    QH[:,:,:] = QH[:,:,:]-QH_mean[:,None,:];
 
     Zcal=dBZ_offset+10*np.log10(DSout['prf'][:]/512);
 
-    Ico=Ico*np.sqrt(10**(Zcal/10.0));
-    Qco=Qco*np.sqrt(10**(Zcal/10.0));
+    IH=IH*np.sqrt(10**(Zcal/10.0));
+    QH=QH*np.sqrt(10**(Zcal/10.0));
 
-    Icx_mean = np.mean(Icx,axis=1);
-    Qcx_mean = np.mean(Qcx,axis=1);
+    IV_mean = np.mean(IV,axis=1);
+    QV_mean = np.mean(QV,axis=1);
 
-    Icx[:,:,:] = Icx[:,:,:]-Icx_mean[:,None,:];
-    Qcx[:,:,:] = Qcx[:,:,:]-Qcx_mean[:,None,:];
+    IV[:,:,:] = IV[:,:,:]-IV_mean[:,None,:];
+    QV[:,:,:] = QV[:,:,:]-QV_mean[:,None,:];
 
-    Icx=Icx*np.sqrt(10**(Zcal/10.0));
-    Qcx=Qcx*np.sqrt(10**(Zcal/10.0));
+    IV=IV*np.sqrt(10**(Zcal/10.0));
+    QV=QV*np.sqrt(10**(Zcal/10.0));
 
     # ---------------
     # Field variables
     # ---------------
 
-    varout = DSout.createVariable('I','f4',('time','pulse','range'),zlib=True);
+    varout = DSout.createVariable('IH','f4',('time','pulse','range'),zlib=True);
     varout.ancillary_variables = 'qc_flag';
-    varout.long_name = 'co-polar in-phase video signal';
+    varout.long_name = 'Received in-phase video signal for horizontal polarization';
     varout.units = '1';
     varout.comment = 'Scaled to account for calibration for square root of linear reflectivity factor';
 #    add_offset = np.min(Ico[:]);
@@ -1737,11 +1751,11 @@ def convert_galileo_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_versio
     #varout.scale_factor = np.float32(scale_factor);
     #varout.add_offset = np.float32(add_offset);
     #varout[:] = packed_data;
-    varout[:] = Ico;
+    varout[:] = IH;
 
-    varout = DSout.createVariable('Q','f4',('time','pulse','range'),zlib=True);
+    varout = DSout.createVariable('QH','f4',('time','pulse','range'),zlib=True);
     varout.ancillary_variables = 'qc_flag';
-    varout.long_name = 'cross-polar quadrature video signal';
+    varout.long_name = 'Received quadrature video signal for horizontal polarization';
     varout.units = '1';
     varout.comment = 'Scaled to account for calibration for square root of linear reflectivity factor';
 #    add_offset = np.min(Qco);
@@ -1750,11 +1764,11 @@ def convert_galileo_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_versio
     #varout.scale_factor = np.float32(scale_factor);
     #varout.add_offset = np.float32(add_offset);
     #varout[:] = packed_data;
-    varout[:] = Qco;
+    varout[:] = QH;
 
-    varout = DSout.createVariable('Icx','f4',('time','pulse','range'),zlib=True);
+    varout = DSout.createVariable('IV','f4',('time','pulse','range'),zlib=True);
     varout.ancillary_variables = 'qc_flag';
-    varout.long_name = 'cross-polar in-phase video signal';
+    varout.long_name = 'Received in-phase video signal for vertical polarization';
     varout.units = '1';
     varout.comment = 'Scaled to account for calibration for square root of linear reflectivity factor';
 #    add_offset = np.min(Icx);
@@ -1763,11 +1777,11 @@ def convert_galileo_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_versio
 #    varout.scale_factor = np.float32(scale_factor);
 #    varout.add_offset = np.float32(add_offset);
 #    varout[:] = packed_data;
-    varout[:] = Icx;
+    varout[:] = IV;
 
-    varout = DSout.createVariable('Qcx','f4',('time','pulse','range'),zlib=True);
+    varout = DSout.createVariable('QV','f4',('time','pulse','range'),zlib=True);
     varout.ancillary_variables = 'qc_flag';
-    varout.long_name = 'cross-polar quadrature video signal';
+    varout.long_name = 'Received quadrature video signal for vertical polarization';
     varout.units = '1';
     varout.comment = 'Scaled to account for calibration for square root of linear reflectivity factor';
 #    add_offset = np.min(Qcx);
@@ -1776,11 +1790,11 @@ def convert_galileo_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_versio
 #    varout.scale_factor = np.float32(scale_factor);
 #    varout.add_offset = np.float32(add_offset);
 #    varout[:] = packed_data;
-    varout[:] = Qcx;
+    varout[:] = QV;
 
     varout = DSout.createVariable('qc_flag','u1',('time','pulse','range'));
     varout.is_quality = 'true';
-    varout.qualified_variables = 'I Q Icx Qcx';
+    varout.qualified_variables = 'IH QH IV QV';
     varout.long_name = 'Quality control flag';
     varout.flag_values = np.uint8(0),np.uint8(1), np.uint8(2), np.uint8(3), np.uint8(4), np.uint8(255);
     varout.flag_meanings = 'not_used good_data probably_good_data bad_data data_in_blind_range no_qc_performed';
