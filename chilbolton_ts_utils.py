@@ -1704,8 +1704,9 @@ def convert_galileo_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_versio
     varout.units = '1';
     varout.comment = '1 = H, 0 = V'
 
-    print(txpol);
+    print('txpol=');
     varout[:] = txpol; 
+    print(txpol);
 
 
     IH = DSin['IH'][firstray:,:,:];
