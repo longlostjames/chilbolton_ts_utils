@@ -1694,7 +1694,7 @@ def convert_galileo_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_versio
     # Input Level 0b file has I and Q dependent on the following dimensions (time,spectra,pulses,sample).
     # We rearrange this into a three-dimensional array dependent on (time,pulse,range);
 
-    VnotH = DS['VnotH'][firstray:,:,10];
+    VnotH = DSin['VnotH'][firstray:,:,10];
     txpol = VnotH.astype(int);
     txpol[VnotH<200] = 1;
     txpol[VnotH>3500] = 0;
