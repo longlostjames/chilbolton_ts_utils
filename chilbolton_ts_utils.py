@@ -1703,6 +1703,8 @@ def convert_galileo_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_versio
     varout.long_name = 'Polarization of leading pulse';
     varout.units = '1';
     varout.comment = '1 = H, 0 = V'
+
+    print(txpol);
     varout[:] = txpol; 
 
 
@@ -1741,7 +1743,7 @@ def convert_galileo_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_versio
     # ---------------
 
     print('Created IH and IV');
-    
+
     varout = DSout.createVariable('IH','f4',('time','pulse','range'),zlib=True);
     varout.ancillary_variables = 'qc_flag';
     varout.long_name = 'Received in-phase video signal for horizontal polarization';
