@@ -1740,6 +1740,8 @@ def convert_galileo_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_versio
     # Field variables
     # ---------------
 
+    print('Created IH and IV');
+    
     varout = DSout.createVariable('IH','f4',('time','pulse','range'),zlib=True);
     varout.ancillary_variables = 'qc_flag';
     varout.long_name = 'Received in-phase video signal for horizontal polarization';
