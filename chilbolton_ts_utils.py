@@ -1638,7 +1638,7 @@ def convert_galileo_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_versio
     # Copy dimensions
     # ---------------
     the_dim = DSin.dimensions['time'];
-    DSout.createDimension('time', len(the_dim) if not the_dim.isunlimited() else None)
+    DSout.createDimension('time', len(the_dim) if not the_dim.isunlimited() else None);
 
     #fft_bin_dim = DSin.dimensions['fft_bin_dim'];
     #spectra_number_dim = DSin.dimensions['spectra_number_dim'];
@@ -1646,11 +1646,9 @@ def convert_galileo_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_versio
 
     the_dim = DSin.dimensions['range'];
     nrange = len(the_dim);
-    DSout.createDimension('range', len(the_dim) if not the_dim.isunlimited() else None)
+    DSout.createDimension('range', len(the_dim) if not the_dim.isunlimited() else None);
     the_dim = DSin.dimensions['pulses'];
-    DSout.createDimension('pulse', len(the_dim) if not the_dim.isunlimited() else None)
-
-    print(DSout.dimensions['pulse']);
+    DSout.createDimension('pulse', len(the_dim) if not the_dim.isunlimited() else None);
 
     # --------------------
     # Coordinate variables
@@ -1708,6 +1706,8 @@ def convert_galileo_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_versio
 
     IH0 = DSin['IH'][firstray:,:,:];
     QH0 = DSin['QH'][firstray:,:,:];
+
+    print(IH0);
 
     IH = IH0.astype(float);
     QX = QH0.astype(float)
