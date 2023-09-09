@@ -1375,6 +1375,7 @@ def convert_galileo_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_versio
 
     radar_name = instrument["instrument_name"].lower();
 
+
     print(radar_name);
 
     for n in project["ncas-instruments"]:
@@ -1384,6 +1385,9 @@ def convert_galileo_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_versio
     print(project_instrument);
 
     location = project_instrument['platform']['location'].lower();
+
+    fixed_elevation = project_instrument['fixed_elevation']['value'];
+    fixed_elevation_units = project_instrument['fixed_elevation']['units'];
 
 
     # -----------------------------------------------------
@@ -1523,9 +1527,9 @@ def convert_galileo_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_versio
 
     varout = DSout.createVariable('altitude','f4');
     varout.standard_name = 'altitude';
-    varout.long_name = 'altitude of the antenna above the ellipsoid (WGS84)';
+    varout.long_name = 'altitude of the antenna above the geoid (OSGM15)';
     varout.units = 'm';
-    varout[:] = 131.6;
+    varout[:] = 84.9;
 
     varout = DSout.createVariable('altitude_agl','f4');
     varout.long_name = 'altitude of the antenna above ground';
@@ -1679,6 +1683,13 @@ def convert_galileo_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_versio
     varout.comment   = "assumes transmit and receive antenna boresights are aligned";
     varout.units = 'degree';
     varout.elevation_offset_applied = np.float32(0.);
+
+    varin = DSin['elevation'];
+    all_missing = np.ma.is_masked(varin[:]).all();
+    if all_missing:
+        print("All values are missing.");
+        varout[:] = fixed_elevation;
+        varout.units = fixed_elevation_units;
 
     varout = DSout.createVariable('azimuth','f4','time');
     varout.long_name   = "azimuth angle clockwise from grid north of the plane containing the antenna boresight and zenith vectors";
