@@ -1685,12 +1685,9 @@ def convert_galileo_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_versio
     varout.elevation_offset_applied = np.float32(0.);
 
     varin = DSin['elevation'];
-    all_missing = varin[:].mask.all()
-
-    if all_missing:
-        print("All values are missing.");
-        varout[:] = fixed_elevation;
-        varout.units = fixed_elevation_units;
+   
+    varout[:] = fixed_elevation;
+    varout.units = fixed_elevation_units;
 
     varout = DSout.createVariable('azimuth','f4','time');
     varout.long_name   = "azimuth angle clockwise from grid north of the plane containing the antenna boresight and zenith vectors";
