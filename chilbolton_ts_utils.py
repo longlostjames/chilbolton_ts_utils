@@ -1830,7 +1830,7 @@ def convert_galileo_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_versio
     varout.long_name = 'Pulse mode';
     varout.units = '1';
     varout.comment = 'Mode for pulse transmission for each ray.  1 = H, 2 = V, 3 = HV (LDR mode), 4 = HH, 5 = VV, 6 = HV-VH, 7 = HV-HV'
-    varout[:-1] = pulse_mode[1:]; # Corrects offset of pulse_mode in NetCDF input file
+    varout[:-1] = pulse_mode[2:]; # Corrects offset of pulse_mode in NetCDF input file
     varout[-1] = pulse_mode[-2];
 
     blind_range = np.arange(14);
