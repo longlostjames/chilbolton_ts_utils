@@ -1722,7 +1722,7 @@ def convert_galileo_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_versio
     print(IH0);
 
     IH = IH0.astype(float);
-    QX = QH0.astype(float)
+    QH = QH0.astype(float)
 
     IV0 = DSin['IV'][firstray:,:,:];
     QV0 = DSin['QV'][firstray:,:,:];
