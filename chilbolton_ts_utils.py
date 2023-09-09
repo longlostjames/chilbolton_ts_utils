@@ -1716,8 +1716,6 @@ def convert_galileo_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_versio
     IH0 = DSin['IH'][firstray:,:,:];
     QH0 = DSin['QH'][firstray:,:,:];
 
-    print(IH0);
-
     IH = IH0.astype(float);
     QH = QH0.astype(float)
 
@@ -1731,16 +1729,12 @@ def convert_galileo_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_versio
     npulse   = IH.shape[1];
     ngate    = IH.shape[2];
 
-    print(nray,npulse,ngate);
-
     IH_mean = np.mean(IH,axis=1);
     QH_mean = np.mean(QH,axis=1);
 
 
     IH[:,:,:] = IH[:,:,:]-IH_mean[:,None,:];
     QH[:,:,:] = QH[:,:,:]-QH_mean[:,None,:];
-
-    print(IH);
 
     Zcal=dBZ_offset+10*np.log10(DSout['prf'][:]/512);
 
@@ -1760,7 +1754,7 @@ def convert_galileo_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_versio
     # Field variables
     # ---------------
 
-    print('Created IH and IV');
+    #print('Created IH and IV');
 
     varout = DSout.createVariable('IH','f4',('time','pulse','range'),zlib=True);
     varout.ancillary_variables = 'qc_flag';
