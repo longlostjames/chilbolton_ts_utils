@@ -1685,7 +1685,8 @@ def convert_galileo_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_versio
     varout.elevation_offset_applied = np.float32(0.);
 
     varin = DSin['elevation'];
-    all_missing = np.ma.is_masked(varin[:]).all();
+    all_missing = varin[:].mask.all()
+
     if all_missing:
         print("All values are missing.");
         varout[:] = fixed_elevation;
