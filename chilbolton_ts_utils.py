@@ -1388,7 +1388,8 @@ def convert_galileo_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_versio
 
     fixed_elevation = project_instrument['fixed_elevation']['value'];
     fixed_elevation_units = project_instrument['fixed_elevation']['units'];
-
+    fixed_azimuth = project_instrument['fixed_azimuth']['value'];
+    fixed_azimuth_units = project_instrument['fixed_azimuth']['units'];
 
     # -----------------------------------------------------
     # Read NetCDF IQ time series file
@@ -1694,6 +1695,9 @@ def convert_galileo_ts_l0a2l1(infile,outfile,dBZ_offset,range_offset,data_versio
     varout.units = 'degree';
     varout.azimuth_offset_applied = np.float32(0.);
     varout.comment = "assumes transmit and receive antenna boresights are aligned"
+
+    varout[:] = fixed_azimuth;
+    varout.units = fixed_azimuth_units;
 
     # --------------------------------
     # Determine bias-corrected I and Q
